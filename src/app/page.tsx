@@ -4,6 +4,7 @@ import Benefits from "@/components/section/benefits";
 import Pricing from "@/components/section/Pricing";
 import Promo from "@/components/section/Promo";
 import CTA from "@/components/section/CTA";
+import Footer from "@/components/layout/Footer";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <Pricing />
         <Promo />
         <CTA />
+        <Footer />
       </main>
     </>
   );
