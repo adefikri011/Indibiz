@@ -45,11 +45,19 @@ export default function FAQ() {
 
         {/* ===== HEADING CENTERED ===== */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+          <h2
+            data-animate="scale"
+            className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
+            style={{ ["--animate-delay" as never]: "40ms" }}
+          >
             Pertanyaan yang Sering Ditanyakan
           </h2>
 
-          <p className="text-slate-600 text-lg">
+          <p
+            data-animate
+            className="text-slate-600 text-lg"
+            style={{ ["--animate-delay" as never]: "120ms" }}
+          >
             Beberapa pertanyaan umum sebelum Anda berlangganan INDIBIZ.
             Jika masih ada pertanyaan, tim kami siap membantu.
           </p>
@@ -63,8 +71,10 @@ export default function FAQ() {
             return (
               <div
                 key={index}
+                data-animate="scale"
                 className="border border-slate-200 rounded-2xl transition-all duration-300"
                 style={{
+                  ["--animate-delay" as never]: `${index * 90 + 160}ms`,
                   backgroundColor: isOpen ? "#F8FAFC" : "#FFFFFF",
                 }}
               >

@@ -30,10 +30,18 @@ export default function Benefits() {
       <Container>
         {/* Heading */}
         <div className="mb-12 max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+          <h2
+            data-animate="scale"
+            className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
+            style={{ ["--animate-delay" as never]: "40ms" }}
+          >
             Kenapa Memilih <span className="text-blue-600">INDIBIZ</span>?
           </h2>
-          <p className="text-slate-600 text-lg">
+          <p
+            data-animate
+            className="text-slate-600 text-lg"
+            style={{ ["--animate-delay" as never]: "120ms" }}
+          >
             Solusi internet semi-dedicated yang dirancang khusus untuk kebutuhan bisnis, perkantoran, hingga content creator.
           </p>
         </div>
@@ -42,8 +50,10 @@ export default function Benefits() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {benefits.map((item, index) => (
             <div
+              data-animate="scale"
               key={index}
               className="p-6 rounded-2xl border border-slate-200 bg-slate-50 hover:shadow-lg transition-all duration-300"
+              style={{ ["--animate-delay" as never]: `${index * 90 + 140}ms` }}
             >
               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm mb-4 border border-slate-200">
                 {item.icon}

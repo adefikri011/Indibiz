@@ -15,8 +15,9 @@ export default function Hero() {
           <div className="flex-1 space-y-6 relative z-10">
 
             <h1
+              data-animate="scale"
               className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
-              style={{ color: "#0F172A" }}
+                style={{ ["--animate-delay" as never]: "60ms", color: "#0F172A" }}
             >
               Internet Bisnis Stabil untuk{" "}
               <span style={{ color: "#1D4ED8" }}>
@@ -25,8 +26,12 @@ export default function Hero() {
             </h1>
 
             <p
+              data-animate
               className="text-lg md:text-xl max-w-xl leading-relaxed"
-              style={{ color: "#64748B" }}
+              style={{
+                ["--animate-delay" as never]: "120ms",
+                color: "#64748B",
+              }}
             >
               Solusi internet semi-dedicated dengan performa konsisten,
               upload &amp; download simetris, dan tanpa FUP — cocok untuk
@@ -36,8 +41,10 @@ export default function Hero() {
             <div className="pt-4">
               <WALink href="https://wa.me/6285189300718?text=Halo,%20saya%20ingin%20konsultasi%20paket%20INDIBIZ">
                 <div
+                  data-animate="slide-left"
                   className="inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 cursor-pointer hover:scale-[1.02]"
                   style={{
+                    ["--animate-delay" as never]: "180ms",
                     backgroundColor: "#1D4ED8",
                     color: "#FFFFFF",
                     boxShadow: "0 12px 30px rgba(29,78,216,0.3)",
@@ -56,8 +63,10 @@ export default function Hero() {
             {/* Blob gradient — hanya di area ini, bukan full section.
                Bentuknya besar, rata di pojok kanan-atas, meniru wireframe */}
             <div
+              data-animate="scale"
               className="absolute -z-10"
               style={{
+                ["--animate-delay" as never]: "120ms",
                 top: "-15%",
                 left: "-5%",
                 width: "115%",
@@ -69,8 +78,10 @@ export default function Hero() {
             />
 
             <div
+              data-animate="scale"
               className="w-full max-w-[480px] relative z-10"
               style={{
+                ["--animate-delay" as never]: "140ms",
                 filter: "drop-shadow(0 25px 50px rgba(29,78,216,0.15))",
               }}
             >

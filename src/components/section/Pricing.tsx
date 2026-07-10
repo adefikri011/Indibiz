@@ -75,14 +75,25 @@ export default function Pricing() {
         <div className="mb-14 max-w-3xl mx-auto text-center">
 
           <h2
+            data-animate="scale"
             className="text-3xl md:text-4xl font-bold mb-4"
-            style={{ color: "#0F172A" }}
+            style={{
+              ["--animate-delay" as never]: "40ms",
+              color: "#0F172A",
+            }}
           >
             Pilih <span style={{ color: "#1D4ED8" }}>Paket</span> Sesuai
             Kebutuhan
           </h2>
 
-          <p className="text-lg" style={{ color: "#64748B" }}>
+          <p
+            data-animate
+            className="text-lg"
+            style={{
+              ["--animate-delay" as never]: "120ms",
+              color: "#64748B",
+            }}
+          >
             Harga terjangkau, kualitas enterprise. Semua paket sudah termasuk
             unlimited tanpa FUP dan tagihan flat setiap bulan.
           </p>
@@ -141,8 +152,10 @@ export default function Pricing() {
             {plans.map((plan) => (
               <div
                 key={plan.speed}
+                data-animate="scale"
                 className="relative flex flex-col flex-shrink-0 rounded-2xl p-6 transition-all duration-300"
                 style={{
+                  ["--animate-delay" as never]: `${plan.speed === "100" ? 180 : 120 + Number(plan.speed) / 2}ms`,
                   width: "270px",
                   scrollSnapAlign: "start",
                   backgroundColor: plan.popular ? "#1D4ED8" : "#FFFFFF",
@@ -279,8 +292,10 @@ export default function Pricing() {
                   href={`https://wa.me/6285189300718?text=Halo%20Deska,%20saya%20tertarik%20paket%20INDIBIZ%20${plan.speed}%20Mbps%20seharga%20Rp%20${plan.price}/bulan`}
                 >
                   <div
+                    data-animate="slide-left"
                     className="w-full py-2.5 rounded-xl font-semibold text-center text-sm cursor-pointer hover:opacity-90 transition-opacity"
                     style={{
+                      ["--animate-delay" as never]: "240ms",
                       backgroundColor: plan.popular ? "#FFFFFF" : "#1D4ED8",
                       color: plan.popular ? "#1D4ED8" : "#FFFFFF",
                     }}
@@ -303,11 +318,15 @@ export default function Pricing() {
         {/* ===== INFO PROMO ===== */}
         <div className="mt-10 text-center">
           <div
+            data-animate="scale"
             className="inline-block px-6 py-3 rounded-2xl"
-            style={{ backgroundColor: "#EFF6FF" }}
+            style={{
+              ["--animate-delay" as never]: "220ms",
+              backgroundColor: "#EFF6FF",
+            }}
           >
             <p className="text-sm font-medium" style={{ color: "#64748B" }}>
-              ✨ Diskon{" "}
+               Diskon{" "}
               <span className="font-bold" style={{ color: "#1D4ED8" }}>
                 70%
               </span>{" "}

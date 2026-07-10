@@ -5,6 +5,7 @@ import MetaPixel from "@/components/MetaPixel";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "maplibre-gl/dist/maplibre-gl.css"
+import "@/styles/animation.css";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 

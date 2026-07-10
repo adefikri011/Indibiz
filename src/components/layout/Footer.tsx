@@ -15,13 +15,13 @@ export default function Footer() {
       name: "Bandung",
       latitude: -6.921820,
       longitude: 107.709558,
-      gmaps: "https://www.google.com/maps?q=-6.921820,107.709558"
+      gmaps: "https://maps.app.goo.gl/XK4RB8BkCBrVk6SZ9"
     },
     sumedang: {
       name: "Sumedang",
       latitude: -6.857538,
       longitude: 107.921248,
-      gmaps: "https://www.google.com/maps?q=-6.857538,107.921248"
+      gmaps: "https://maps.app.goo.gl/qtDMTMe3342SXZHy5"
     }
   }
 
@@ -42,7 +42,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
 
           {/* Brand */}
-          <div>
+          <div data-animate="scale" style={{ ["--animate-delay" as never]: "40ms" }}>
             <h3 className="text-2xl font-bold mb-3">
               <span className="text-blue-500">i</span>ndibiz
             </h3>
@@ -53,7 +53,7 @@ export default function Footer() {
           </div>
 
           {/* Menu */}
-          <div>
+          <div data-animate="scale" style={{ ["--animate-delay" as never]: "120ms" }}>
             <h4 className="font-semibold mb-4 text-gray-200">Menu</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
@@ -70,7 +70,7 @@ export default function Footer() {
           </div>
 
           {/* Kontak */}
-          <div>
+          <div data-animate="scale" style={{ ["--animate-delay" as never]: "200ms" }}>
             <h4 className="font-semibold mb-4 text-gray-200">Kontak</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>WA: +62 851-8930-0718</li>
@@ -80,7 +80,7 @@ export default function Footer() {
           </div>
 
           {/* ===== MINI MAP ===== */}
-          <div>
+          <div data-animate="scale" style={{ ["--animate-delay" as never]: "280ms" }}>
             <h4 className="font-semibold mb-4 text-gray-200">
               Area Layanan
             </h4>
@@ -89,22 +89,20 @@ export default function Footer() {
             <div className="flex gap-2 mb-3">
               <button
                 onClick={() => flyTo("bandung")}
-                className={`px-3 py-1 text-xs rounded-full transition ${
-                  activeLocation === "bandung"
+                className={`px-3 py-1 text-xs rounded-full transition ${activeLocation === "bandung"
                     ? "bg-blue-600 hover:bg-blue-700"
                     : "bg-gray-700 hover:bg-gray-600"
-                }`}
+                  }`}
               >
                 Bandung
               </button>
 
               <button
                 onClick={() => flyTo("sumedang")}
-                className={`px-3 py-1 text-xs rounded-full transition ${
-                  activeLocation === "sumedang"
+                className={`px-3 py-1 text-xs rounded-full transition ${activeLocation === "sumedang"
                     ? "bg-blue-600 hover:bg-blue-700"
                     : "bg-gray-700 hover:bg-gray-600"
-                }`}
+                  }`}
               >
                 Sumedang
               </button>

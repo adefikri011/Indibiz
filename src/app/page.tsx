@@ -7,20 +7,35 @@ import CTA from "@/components/section/CTA";
 import Footer from "@/components/layout/Footer";
 import FAQ from "@/components/section/FAQ";
 import PromoAndCTA from "@/components/section/PromoAndCTA";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <ScrollReveal delay={0}>
+        <Navbar />
+      </ScrollReveal>
       <main>
-        <Hero />
-        <Benefits />
-        <Pricing />
+        <ScrollReveal delay={80}>
+          <Hero />
+        </ScrollReveal>
+        <ScrollReveal delay={120}>
+          <Benefits />
+        </ScrollReveal>
+        <ScrollReveal delay={160}>
+          <Pricing />
+        </ScrollReveal>
         {/* <Promo /> */}
-        <PromoAndCTA />
-        <FAQ />
-        <Footer />
+        <ScrollReveal delay={200}>
+          <PromoAndCTA />
+        </ScrollReveal>
+        <ScrollReveal delay={240}>
+          <FAQ />
+        </ScrollReveal>
+        <ScrollReveal delay={280}>
+          <Footer />
+        </ScrollReveal>
       </main>
     </>
   );
