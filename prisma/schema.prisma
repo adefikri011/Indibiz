@@ -12,3 +12,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model PricingPlan {
+  id           String   @id @default(uuid())
+  speed        Int
+  normalPrice  Int
+  price        Int
+  isPopular    Boolean  @default(false)
+  order        Int      @default(0)
+
+  features     PricingFeature[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PricingFeature {
+  id        String      @id @default(uuid())
+  name      String
+  plan      PricingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  planId    String
+
+  createdAt DateTime @default(now())
+}
