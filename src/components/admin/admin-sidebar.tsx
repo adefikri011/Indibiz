@@ -17,7 +17,7 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
-    label: "Kelola Landing Page",
+    label: "Pricing",
     href: "/admin/landing",
     icon: FilePenLine,
   },

@@ -6,8 +6,10 @@ import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "maplibre-gl/dist/maplibre-gl.css"
 import "@/styles/animation.css";
+import { Toaster } from "sonner";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
@@ -28,9 +30,15 @@ export default function RootLayout({
   return (
     <html lang="id" className={cn("font-sans", geist.variable)}>
       <body className="antialiased bg-background text-foreground">
-        <MetaPixel /> 
-        
+        <MetaPixel />
+
         {children}
+
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+        />
         <FloatingWhatsApp />
       </body>
     </html>
