@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { Users } from "lucide-react";
 import {
   FilePenLine,
   LayoutDashboard,
@@ -20,6 +21,11 @@ const menuItems = [
     label: "Kelola Landing Page",
     href: "/admin/landing",
     icon: FilePenLine,
+  },
+  {
+    label: "User",
+    href: "/admin/users",
+    icon: Users,
   },
 ];
 
