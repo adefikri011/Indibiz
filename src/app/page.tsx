@@ -13,9 +13,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 export default function Home() {
   return (
     <>
-      <ScrollReveal delay={0}>
-        <Navbar />
-      </ScrollReveal>
+      <Navbar />
       <main>
         <ScrollReveal delay={80}>
           <Hero />

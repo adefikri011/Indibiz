@@ -39,7 +39,6 @@ export default function RootLayout({
           richColors
           closeButton
         />
-        <FloatingWhatsApp />
       </body>
     </html>
   );

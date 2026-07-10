@@ -2,6 +2,7 @@
 
 import Container from "@/components/ui/Container"
 import Link from "next/link"
+import Image from "next/image"
 import { Map, MapMarker, MarkerContent, MarkerPopup } from "@/components/ui/map"
 import { useRef, useState } from "react"
 import type { MapRef } from "@/components/ui/map"
@@ -49,16 +50,36 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-[#0F172A] text-white pt-14 pb-8 border-t border-white/10">
-      <Container>
+    <footer className="bg-[#0F172A] text-white pt-16 pb-10 border-t border-white/10 relative overflow-hidden">
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+      {/* subtle ambient glow, tidak mengubah warna dasar */}
+      <div
+        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-[0.08] blur-3xl"
+        style={{ backgroundColor: "#2F5FD0" }}
+      />
+
+      <Container>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.9fr_1.3fr] gap-x-8 gap-y-12">
 
           {/* Brand */}
-          <div>
-            <h3 className="text-2xl font-bold mb-3">
-              <span style={{ color: "#2F5FD0" }}>i</span>ndibiz
-            </h3>
+          <div className="max-w-xs">
+            <div className="flex items-center gap-2.5 mb-4">
+              <Image
+                src="/image/indibizlogo2.png"
+                alt="Indibiz Logo"
+                width={32}
+                height={32}
+                className="shrink-0"
+              />
+              <h3 className="text-2xl font-bold tracking-tight">
+                <span style={{ color: "#2F5FD0" }}>i</span>ndibiz
+              </h3>
+            </div>
+
+            <p className="text-sm font-medium text-gray-300 mb-3 italic">
+              &ldquo;Ciptakan Peluang, Wujudkan Harapan&rdquo;
+            </p>
+
             <p className="text-gray-400 text-sm leading-relaxed">
               Internet Digital Bisnis by Telkom Indonesia.
               Solusi internet andal untuk semua kebutuhan bisnis Anda.
@@ -67,15 +88,24 @@ export default function Footer() {
 
           {/* Menu */}
           <div>
-            <h4 className="font-semibold mb-4 text-gray-200">Menu</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-300">
+              Menu
+            </h4>
+            <ul className="space-y-3 text-sm text-gray-400">
               <li>
-                <Link href="#pricing" className="hover:text-white transition">
+                <Link
+                  href="#pricing"
+                  className="hover:text-white hover:translate-x-0.5 transition-all inline-block"
+                >
                   Paket Harga
                 </Link>
               </li>
               <li>
-                <Link href="https://wa.me/6285189300718" target="_blank" className="hover:text-white transition">
+                <Link
+                  href="https://wa.me/6285189300718"
+                  target="_blank"
+                  className="hover:text-white hover:translate-x-0.5 transition-all inline-block"
+                >
                   Kontak
                 </Link>
               </li>
@@ -84,38 +114,62 @@ export default function Footer() {
 
           {/* Kontak */}
           <div>
-            <h4 className="font-semibold mb-4 text-gray-200">Kontak</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>WA: +62 851-8930-0718</li>
-              <li>Area: Bandung & Sumedang</li>
-              <li>indibiz.co.id</li>
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-300">
+              Kontak
+            </h4>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li className="flex items-center gap-2">
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: "#2F5FD0" }}
+                />
+                WA: +62 851-8930-0718
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: "#2F5FD0" }}
+                />
+                Area: Bandung & Sumedang
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: "#2F5FD0" }}
+                />
+                indibiz.co.id
+              </li>
             </ul>
           </div>
 
           {/* ===== MINI MAP ===== */}
           <div>
-            <h4 className="font-semibold mb-4 text-gray-200">
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-300">
               Area Layanan
             </h4>
 
             {/* Button Lokasi */}
-            <div className="flex flex-wrap gap-2 mb-3">
-              {Object.keys(locations).map((key) => (
-                <button
-                  key={key}
-                  onClick={() => flyTo(key as keyof typeof locations)}
-                  className={`px-3 py-1 text-xs rounded-full transition ${
-                    activeLocation === key
-                      ? "bg-[#2F5FD0] hover:bg-[#274FC0]"
-                      : "bg-gray-700 hover:bg-gray-600"
-                  }`}
-                >
-                  {locations[key as keyof typeof locations].name}
-                </button>
-              ))}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {Object.keys(locations).map((key) => {
+                const isActive = activeLocation === key
+                return (
+                  <button
+                    key={key}
+                    onClick={() => flyTo(key as keyof typeof locations)}
+                    className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-all duration-200 ${
+                      isActive
+                        ? "text-white shadow-[0_0_0_1px_rgba(47,95,208,0.5),0_4px_14px_rgba(47,95,208,0.35)]"
+                        : "bg-white/[0.06] text-gray-300 hover:bg-white/[0.12] hover:text-white"
+                    }`}
+                    style={isActive ? { backgroundColor: "#2F5FD0" } : undefined}
+                  >
+                    {locations[key as keyof typeof locations].name}
+                  </button>
+                )
+              })}
             </div>
 
-            <div className="h-[200px] rounded-xl overflow-hidden border border-white/10 relative">
+            <div className="h-[200px] rounded-2xl overflow-hidden border border-white/10 relative shadow-[0_8px_30px_rgba(0,0,0,0.3)] ring-1 ring-white/5">
               <Map
                 ref={mapRef}
                 center={[107.75, -6.9]}
@@ -175,14 +229,14 @@ export default function Footer() {
               </Map>
             </div>
 
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-xs text-gray-500 mt-2.5">
               Klik pin untuk buka Google Maps
             </p>
           </div>
 
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/10 text-center text-sm text-gray-500">
+        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-2 text-center text-sm text-gray-500">
           <p>&copy; {new Date().getFullYear()} INDIBIZ. All rights reserved.</p>
         </div>
 

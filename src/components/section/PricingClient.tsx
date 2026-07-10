@@ -296,9 +296,6 @@ export default function PricingClient({ plans }: Props) {
               </span>{" "}
               biaya pasang baru — Bayar bulan pertama di bulan berikutnya
             </p>
-            <p className="text-xs mt-1" style={{ color: "#94A3B8" }}>
-              Hubungi Deska: 0851 8930 0718
-            </p>
           </div>
         </div>
       </Container>
