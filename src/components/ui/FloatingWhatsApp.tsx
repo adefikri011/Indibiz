@@ -30,14 +30,14 @@ export default function FloatingWhatsApp() {
         <div
           className="relative w-14 h-14 flex items-center justify-center rounded-full shadow-2xl transition-all duration-300 hover:scale-110"
           style={{
-            backgroundColor: "#1D4ED8",
+            backgroundColor: "#2F5FD0",
             boxShadow: "0 15px 35px rgba(29,78,216,0.4)",
           }}
         >
           {/* Subtle Pulse */}
           <span
             className="absolute inset-0 rounded-full opacity-30 animate-ping"
-            style={{ backgroundColor: "#1D4ED8" }}
+            style={{ backgroundColor: "#2F5FD0" }}
           />
 
           <MessageCircle className="w-7 h-7 relative z-10 text-white" />
@@ -88,7 +88,7 @@ export default function FloatingWhatsApp() {
               <button
                 onClick={handleConfirm}
                 className="flex-1 py-3 rounded-xl font-semibold text-white transition hover:opacity-90"
-                style={{ backgroundColor: "#1D4ED8" }}
+                style={{ backgroundColor: "#2F5FD0" }}
               >
                 Ya, Lanjut
               </button>

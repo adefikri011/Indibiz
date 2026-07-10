@@ -12,23 +12,21 @@ export default function PromoAndCTA() {
         className="relative py-16 md:py-20 pb-28 md:pb-32 text-white overflow-hidden"
         style={{
           background:
-            "linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 55%, #2563EB 100%)",
+            "linear-gradient(135deg, #1E3A8A 0%, #2F5FD0 55%, #3B63D1 100%)",
         }}
       >
-        {/* Glow */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-60 h-60 bg-white/10 rounded-full blur-3xl" />
 
         <Container>
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10 text-center md:text-left">
+
             {/* LEFT CONTENT */}
             <div className="max-w-2xl">
               <div
                 data-animate="scale"
                 className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-white/20"
-                style={{
-                  ["--animate-delay" as never]: "40ms",
-                }}
+                style={{ ["--animate-delay" as never]: "40ms" }}
               >
                 <Gift className="w-4 h-4" />
                 Promo Terbatas
@@ -39,8 +37,8 @@ export default function PromoAndCTA() {
                 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight"
                 style={{ ["--animate-delay" as never]: "100ms" }}
               >
-                Diskon {" "}
-                <span className="text-amber-300">70%</span> {" "}
+                Diskon{" "}
+                <span className="text-amber-300">70%</span>{" "}
                 Biaya Pasang Baru!
               </h2>
 
@@ -70,7 +68,7 @@ export default function PromoAndCTA() {
                   style={{
                     ["--animate-delay" as never]: "240ms",
                     backgroundColor: "rgba(255,255,255,0.95)",
-                    color: "#1D4ED8",
+                    color: "#2F5FD0",
                     boxShadow: "0 12px 30px rgba(0,0,0,0.18)",
                   }}
                 >
@@ -109,7 +107,6 @@ export default function PromoAndCTA() {
               boxShadow: "0 25px 60px rgba(15,23,42,0.08)",
             }}
           >
-            {/* TEXT */}
             <div className="max-w-2xl">
               <h2
                 data-animate="scale"
@@ -118,7 +115,7 @@ export default function PromoAndCTA() {
               >
                 Siap Tingkatkan Performa Internet Bisnis Anda?
                 <br />
-                <span style={{ color: "#2563EB" }}>
+                <span style={{ color: "#2F5FD0" }}>
                   Tim Kami Siap Membantu.
                 </span>
               </h2>
@@ -133,7 +130,6 @@ export default function PromoAndCTA() {
               </p>
             </div>
 
-            {/* BUTTON */}
             <div className="flex flex-col items-start md:items-end gap-4">
               <Link
                 href="https://wa.me/6285189300718?text=Halo,%20saya%20ingin%20konsultasi%20paket%20INDIBIZ"
@@ -148,9 +144,9 @@ export default function PromoAndCTA() {
                   className="group flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 cursor-pointer hover:scale-[1.02]"
                   style={{
                     ["--animate-delay" as never]: "260ms",
-                    backgroundColor: "#1D4ED8",
+                    backgroundColor: "#2F5FD0",
                     color: "#FFFFFF",
-                    boxShadow: "0 12px 30px rgba(29,78,216,0.35)",
+                    boxShadow: "0 12px 30px rgba(47,95,208,0.35)",
                   }}
                 >
                   Konsultasi Sekarang

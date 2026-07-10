@@ -20,7 +20,7 @@ export default function Hero() {
                 style={{ ["--animate-delay" as never]: "60ms", color: "#0F172A" }}
             >
               Internet Bisnis Stabil untuk{" "}
-              <span style={{ color: "#1D4ED8" }}>
+              <span style={{ color: "#2F5FD0" }}>
                 Pertumbuhan Usaha Anda
               </span>
             </h1>
@@ -45,9 +45,9 @@ export default function Hero() {
                   className="inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 cursor-pointer hover:scale-[1.02]"
                   style={{
                     ["--animate-delay" as never]: "180ms",
-                    backgroundColor: "#1D4ED8",
+                    backgroundColor: "#2F5FD0",
                     color: "#FFFFFF",
-                    boxShadow: "0 12px 30px rgba(29,78,216,0.3)",
+                    boxShadow: "0 12px 30px rgba(47,95,208,0.3)",
                   }}
                 >
                   Konsultasi Sekarang

@@ -82,7 +82,7 @@ export default function Pricing() {
               color: "#0F172A",
             }}
           >
-            Pilih <span style={{ color: "#1D4ED8" }}>Paket</span> Sesuai
+            Pilih <span style={{ color: "#2F5FD0" }}>Paket</span> Sesuai
             Kebutuhan
           </h2>
 
@@ -109,7 +109,7 @@ export default function Pricing() {
             style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}
             aria-label="Scroll kiri"
           >
-            <ChevronLeft className="w-5 h-5" style={{ color: "#1D4ED8" }} />
+            <ChevronLeft className="w-5 h-5" style={{ color: "#2F5FD0" }} />
           </button>
 
           {/* Tombol Panah Kanan */}
@@ -119,7 +119,7 @@ export default function Pricing() {
             style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}
             aria-label="Scroll kanan"
           >
-            <ChevronRight className="w-5 h-5" style={{ color: "#1D4ED8" }} />
+            <ChevronRight className="w-5 h-5" style={{ color: "#2F5FD0" }} />
           </button>
 
           {/* Fade Kiri */}
@@ -158,12 +158,12 @@ export default function Pricing() {
                   ["--animate-delay" as never]: `${plan.speed === "100" ? 180 : 120 + Number(plan.speed) / 2}ms`,
                   width: "270px",
                   scrollSnapAlign: "start",
-                  backgroundColor: plan.popular ? "#1D4ED8" : "#FFFFFF",
+                  backgroundColor: plan.popular ? "#2F5FD0" : "#FFFFFF",
                   border: plan.popular
-                    ? "2px solid #1D4ED8"
+                    ? "2px solid #2F5FD0"
                     : "1px solid #E2E8F0",
                   boxShadow: plan.popular
-                    ? "0 20px 40px rgba(29, 78, 216, 0.25)"
+                    ? "0 20px 40px rgba(47, 95, 208, 0.25)"
                     : "0 2px 12px rgba(0,0,0,0.06)",
                   marginTop: plan.popular ? "0" : "8px",
                 }}
@@ -234,7 +234,7 @@ export default function Pricing() {
                   </span>
                   <span
                     className="text-2xl font-extrabold"
-                    style={{ color: plan.popular ? "#FFFFFF" : "#1D4ED8" }}
+                    style={{ color: plan.popular ? "#FFFFFF" : "#2F5FD0" }}
                   >
                     {plan.price}
                   </span>
@@ -271,7 +271,7 @@ export default function Pricing() {
                         <Check
                           className="w-2.5 h-2.5"
                           style={{
-                            color: plan.popular ? "#FFFFFF" : "#1D4ED8",
+                            color: plan.popular ? "#FFFFFF" : "#2F5FD0",
                           }}
                         />
                       </div>
@@ -296,8 +296,8 @@ export default function Pricing() {
                     className="w-full py-2.5 rounded-xl font-semibold text-center text-sm cursor-pointer hover:opacity-90 transition-opacity"
                     style={{
                       ["--animate-delay" as never]: "240ms",
-                      backgroundColor: plan.popular ? "#FFFFFF" : "#1D4ED8",
-                      color: plan.popular ? "#1D4ED8" : "#FFFFFF",
+                      backgroundColor: plan.popular ? "#FFFFFF" : "#2F5FD0",
+                      color: plan.popular ? "#2F5FD0" : "#FFFFFF",
                     }}
                   >
                     Pilih Paket {plan.speed} Mbps
@@ -327,7 +327,7 @@ export default function Pricing() {
           >
             <p className="text-sm font-medium" style={{ color: "#64748B" }}>
                Diskon{" "}
-              <span className="font-bold" style={{ color: "#1D4ED8" }}>
+              <span className="font-bold" style={{ color: "#2F5FD0" }}>
                 70%
               </span>{" "}
               biaya pasang baru — Bayar bulan pertama di bulan berikutnya
