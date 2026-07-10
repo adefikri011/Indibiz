@@ -8,7 +8,8 @@ import type { MapRef } from "@/components/ui/map"
 
 export default function Footer() {
   const mapRef = useRef<MapRef>(null)
-  const [activeLocation, setActiveLocation] = useState<"bandung" | "sumedang">("bandung")
+  const [activeLocation, setActiveLocation] =
+    useState<"bandung" | "sumedang" | "cja" | "tanjungsari">("bandung")
 
   const locations = {
     bandung: {
@@ -22,6 +23,18 @@ export default function Footer() {
       latitude: -6.857538,
       longitude: 107.921248,
       gmaps: "https://maps.app.goo.gl/qtDMTMe3342SXZHy5"
+    },
+    cja: {
+      name: "Area CJA",
+      latitude: -6.9599248,
+      longitude: 107.6622998,
+      gmaps: "https://maps.app.goo.gl/N9u9h3FJK5T552CQ6"
+    },
+    tanjungsari: {
+      name: "Tanjungsari",
+      latitude: -6.902949,
+      longitude: 107.801240,
+      gmaps: "https://maps.app.goo.gl/j8BKL8dYAEyP5uoy7"
     }
   }
 
@@ -42,9 +55,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
 
           {/* Brand */}
-          <div data-animate="scale" style={{ ["--animate-delay" as never]: "40ms" }}>
+          <div>
             <h3 className="text-2xl font-bold mb-3">
-              <span className="text-blue-500">i</span>ndibiz
+              <span style={{ color: "#2F5FD0" }}>i</span>ndibiz
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed">
               Internet Digital Bisnis by Telkom Indonesia.
@@ -53,7 +66,7 @@ export default function Footer() {
           </div>
 
           {/* Menu */}
-          <div data-animate="scale" style={{ ["--animate-delay" as never]: "120ms" }}>
+          <div>
             <h4 className="font-semibold mb-4 text-gray-200">Menu</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
@@ -70,7 +83,7 @@ export default function Footer() {
           </div>
 
           {/* Kontak */}
-          <div data-animate="scale" style={{ ["--animate-delay" as never]: "200ms" }}>
+          <div>
             <h4 className="font-semibold mb-4 text-gray-200">Kontak</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>WA: +62 851-8930-0718</li>
@@ -80,123 +93,84 @@ export default function Footer() {
           </div>
 
           {/* ===== MINI MAP ===== */}
-          <div data-animate="scale" style={{ ["--animate-delay" as never]: "280ms" }}>
+          <div>
             <h4 className="font-semibold mb-4 text-gray-200">
               Area Layanan
             </h4>
 
             {/* Button Lokasi */}
-            <div className="flex gap-2 mb-3">
-              <button
-                onClick={() => flyTo("bandung")}
-                className={`px-3 py-1 text-xs rounded-full transition ${activeLocation === "bandung"
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-gray-700 hover:bg-gray-600"
+            <div className="flex flex-wrap gap-2 mb-3">
+              {Object.keys(locations).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => flyTo(key as keyof typeof locations)}
+                  className={`px-3 py-1 text-xs rounded-full transition ${
+                    activeLocation === key
+                      ? "bg-[#2F5FD0] hover:bg-[#274FC0]"
+                      : "bg-gray-700 hover:bg-gray-600"
                   }`}
-              >
-                Bandung
-              </button>
-
-              <button
-                onClick={() => flyTo("sumedang")}
-                className={`px-3 py-1 text-xs rounded-full transition ${activeLocation === "sumedang"
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-gray-700 hover:bg-gray-600"
-                  }`}
-              >
-                Sumedang
-              </button>
+                >
+                  {locations[key as keyof typeof locations].name}
+                </button>
+              ))}
             </div>
 
             <div className="h-[200px] rounded-xl overflow-hidden border border-white/10 relative">
               <Map
                 ref={mapRef}
-                center={[107.815, -6.8897]}
-                zoom={9.6}
+                center={[107.75, -6.9]}
+                zoom={10}
                 className="h-full w-full"
               >
 
-                {/* ===== BANDUNG ===== */}
-                <MapMarker
-                  longitude={locations.bandung.longitude}
-                  latitude={locations.bandung.latitude}
-                  anchor="bottom"
-                  onClick={() => window.open(locations.bandung.gmaps, "_blank")}
-                >
-                  <MarkerContent>
-                    <div className="group relative flex flex-col items-center cursor-pointer">
-                      {/* Tooltip */}
-                      <div className="absolute -top-7 whitespace-nowrap bg-black/80 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none">
-                        Bandung
-                      </div>
-                      {/* Pulse ring */}
-                      <span
-                        className="absolute rounded-full animate-ping"
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          backgroundColor: "#DC2626",
-                          opacity: 0.4,
-                        }}
-                      />
-                      {/* Pin */}
-                      <div
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          backgroundColor: "#DC2626",
-                          borderRadius: "50%",
-                          border: "3px solid white",
-                          boxShadow: "0 3px 10px rgba(0,0,0,0.4)",
-                        }}
-                      />
-                    </div>
-                  </MarkerContent>
-                  <MarkerPopup>
-                    <p className="text-foreground font-medium text-xs">Bandung</p>
-                  </MarkerPopup>
-                </MapMarker>
+                {Object.keys(locations).map((key) => {
+                  const loc = locations[key as keyof typeof locations]
+                  return (
+                    <MapMarker
+                      key={key}
+                      longitude={loc.longitude}
+                      latitude={loc.latitude}
+                      anchor="bottom"
+                      onClick={() => window.open(loc.gmaps, "_blank")}
+                    >
+                      <MarkerContent>
+                        <div className="group relative flex flex-col items-center cursor-pointer">
+                          <div className="absolute -top-7 whitespace-nowrap bg-black/80 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none">
+                            {loc.name}
+                          </div>
 
-                {/* ===== SUMEDANG ===== */}
-                <MapMarker
-                  longitude={locations.sumedang.longitude}
-                  latitude={locations.sumedang.latitude}
-                  anchor="bottom"
-                  onClick={() => window.open(locations.sumedang.gmaps, "_blank")}
-                >
-                  <MarkerContent>
-                    <div className="group relative flex flex-col items-center cursor-pointer">
-                      {/* Tooltip */}
-                      <div className="absolute -top-7 whitespace-nowrap bg-black/80 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none">
-                        Sumedang
-                      </div>
-                      {/* Pulse ring */}
-                      <span
-                        className="absolute rounded-full animate-ping"
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          backgroundColor: "#DC2626",
-                          opacity: 0.4,
-                        }}
-                      />
-                      {/* Pin */}
-                      <div
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          backgroundColor: "#DC2626",
-                          borderRadius: "50%",
-                          border: "3px solid white",
-                          boxShadow: "0 3px 10px rgba(0,0,0,0.4)",
-                        }}
-                      />
-                    </div>
-                  </MarkerContent>
-                  <MarkerPopup>
-                    <p className="text-foreground font-medium text-xs">Sumedang</p>
-                  </MarkerPopup>
-                </MapMarker>
+                          {/* Pulse ring */}
+                          <span
+                            className="absolute rounded-full animate-ping"
+                            style={{
+                              width: "18px",
+                              height: "18px",
+                              backgroundColor: "#2F5FD0",
+                              opacity: 0.4,
+                            }}
+                          />
+
+                          {/* Pin */}
+                          <div
+                            style={{
+                              width: "18px",
+                              height: "18px",
+                              backgroundColor: "#2F5FD0",
+                              borderRadius: "50%",
+                              border: "3px solid white",
+                              boxShadow: "0 3px 10px rgba(0,0,0,0.4)",
+                            }}
+                          />
+                        </div>
+                      </MarkerContent>
+                      <MarkerPopup>
+                        <p className="text-foreground font-medium text-xs">
+                          {loc.name}
+                        </p>
+                      </MarkerPopup>
+                    </MapMarker>
+                  )
+                })}
 
               </Map>
             </div>
