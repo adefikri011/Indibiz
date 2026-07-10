@@ -5,6 +5,9 @@ import Pricing from "@/components/section/Pricing";
 import Promo from "@/components/section/Promo";
 import CTA from "@/components/section/CTA";
 import Footer from "@/components/layout/Footer";
+import FAQ from "@/components/section/FAQ";
+import PromoAndCTA from "@/components/section/PromoAndCTA";
+
 
 export default function Home() {
   return (
@@ -14,8 +17,9 @@ export default function Home() {
         <Hero />
         <Benefits />
         <Pricing />
-        <Promo />
-        <CTA />
+        {/* <Promo /> */}
+        <PromoAndCTA />
+        <FAQ />
         <Footer />
       </main>
     </>

@@ -1,46 +1,88 @@
+"use client";
 import Container from "@/components/ui/Container";
 import Link from "next/link";
-import { Gift, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Promo() {
   return (
-    <section className="py-16 md:py-20 bg-gradient-to-br from-primary to-primary-dark text-white overflow-hidden relative">
-      {/* Efek Glow Background (Biar makin premium) */}
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-60 h-60 bg-white/10 rounded-full blur-3xl"></div>
+    <section
+      className="relative py-20 md:py-24 overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 100%)",
+      }}
+    >
+      {/* Subtle Glow */}
+      <div className="absolute -top-20 -right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
 
       <Container>
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-          
-          {/* Teks Promo */}
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-white/20">
-              <Gift className="w-4 h-4" />
-              Promo Terbatas
-            </div>
-            
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 leading-tight">
-              Diskon <span className="text-amber-300">70%</span> Biaya Pasang Baru!
+        <div className="relative z-10 grid md:grid-cols-2 gap-14 items-center">
+
+          {/* ===== LEFT (PROMO) ===== */}
+          <div className="text-white">
+
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+              Diskon <span className="text-amber-300">70%</span> 
+              <br />
+              Biaya Pasang Baru
             </h2>
-            
-            <p className="text-blue-100 text-lg md:text-xl leading-relaxed">
-              Jangan lewatkan kesempatan ini. Nikmati internet bisnis premium dengan harga spesial.
-              <br className="hidden md:block" />
-              <span className="font-medium text-white">Bayar paket bulanan di bulan berikutnya.</span>
+
+            <p className="text-blue-100 text-lg leading-relaxed max-w-xl">
+              Jangan lewatkan kesempatan ini. Nikmati internet bisnis premium 
+              dengan harga spesial dan bayar paket bulanan di bulan berikutnya.
             </p>
+
+            {/* Arrow Flow */}
+            <div className="hidden md:flex items-center mt-12">
+              <div className="h-[2px] w-24 bg-white/40"></div>
+              <ArrowRight className="mx-4 text-white/60 w-6 h-6" />
+              <span className="text-white/70 text-sm">
+                Lanjutkan ke konsultasi
+              </span>
+            </div>
+
           </div>
 
-          {/* Tombol CTA */}
-          <div className="flex-shrink-0">
+          {/* ===== RIGHT (CTA PANEL) ===== */}
+          <div
+            className="rounded-3xl p-10"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.95)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            <h3 className="text-2xl font-bold text-slate-900 mb-4">
+              Siap Tingkatkan Performa Internet Bisnis Anda?
+            </h3>
+
+            <p className="text-slate-600 mb-8 leading-relaxed">
+              Konsultasikan kebutuhan bisnis Anda sekarang dan dapatkan
+              rekomendasi paket terbaik sesuai skala usaha Anda.
+            </p>
+
             <Link
-              href="https://wa.me/6285189300718?text=Halo,%20saya%20mau%20klaim%20promo%20diskon%2070%25%20pasang%20baru%20INDIBIZ"
+              href="https://wa.me/6285189300718?text=Halo,%20saya%20ingin%20klaim%20promo%2070%25%20INDIBIZ"
               target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-amber-50 hover:scale-105 transition-all duration-300 shadow-xl"
+              onClick={() =>
+                typeof window !== "undefined" &&
+                (window as any).fbq?.("track", "Lead")
+              }
             >
-              Klaim Promo Sekarang
-              <ArrowRight className="w-5 h-5" />
+              <div
+                className="group flex items-center justify-center gap-3 w-full py-4 rounded-2xl font-semibold text-lg transition-all duration-300 cursor-pointer"
+                style={{
+                  backgroundColor: "#1D4ED8",
+                  color: "#FFFFFF",
+                }}
+              >
+                Konsultasi Sekarang
+                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </div>
             </Link>
+
+            <p className="text-xs text-slate-500 mt-4 text-center">
+              Gratis konsultasi • Respon cepat
+            </p>
           </div>
 
         </div>

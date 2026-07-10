@@ -1,71 +1,86 @@
 import Container from "@/components/ui/Container";
-import Link from "next/link";
-import { CheckCircle2, ArrowRight, MessageCircle } from "lucide-react";
+import WALink from "@/components/ui/WALink";
+import { MessageCircle } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="py-16 md:py-24 bg-[#F8FAFC]">
+    <section
+      id="beranda"
+      className="pt-6 pb-16 md:pt-8 md:pb-20 bg-white relative overflow-hidden"
+    >
       <Container>
-        <div className="flex flex-col md:flex-row items-center gap-12">
-          
-          {/* KOLOM KIRI: Text & CTA */}
-          <div className="flex-1 space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
-              Temukan Internet Andal untuk <span className="text-primary">Semua Kebutuhan</span> Bisnis Anda
+        <div className="flex flex-col md:flex-row items-center gap-16">
+
+          {/* ===== LEFT CONTENT (tetap putih polos) ===== */}
+          <div className="flex-1 space-y-6 relative z-10">
+
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+              style={{ color: "#0F172A" }}
+            >
+              Internet Bisnis Stabil untuk{" "}
+              <span style={{ color: "#1D4ED8" }}>
+                Pertumbuhan Usaha Anda
+              </span>
             </h1>
-            
-            <p className="text-lg text-muted max-w-xl">
-              Solusi digital pilihan sesuai klasifikasi, skala, dan kebutuhan bisnis Anda. 
-              Nikmati jaringan stabil, simetris, dan unlimited tanpa FUP.
+
+            <p
+              className="text-lg md:text-xl max-w-xl leading-relaxed"
+              style={{ color: "#64748B" }}
+            >
+              Solusi internet semi-dedicated dengan performa konsisten,
+              upload &amp; download simetris, dan tanpa FUP — cocok untuk
+              kantor, UMKM, sekolah, hingga live streaming bisnis Anda.
             </p>
 
-            {/* Fitur Checklist */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              {["Transformasi Digital", "Pertumbuhan Bisnis", "Dukungan Berkelanjutan", "Kemudahan Mengelola Layanan"].map((item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
-                  <span className="text-foreground font-medium">{item}</span>
+            <div className="pt-4">
+              <WALink href="https://wa.me/6285189300718?text=Halo,%20saya%20ingin%20konsultasi%20paket%20INDIBIZ">
+                <div
+                  className="inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 cursor-pointer hover:scale-[1.02]"
+                  style={{
+                    backgroundColor: "#1D4ED8",
+                    color: "#FFFFFF",
+                    boxShadow: "0 12px 30px rgba(29,78,216,0.3)",
+                  }}
+                >
+                  Konsultasi Sekarang
+                  <MessageCircle className="w-5 h-5" />
                 </div>
-              ))}
-            </div>
-
-            {/* Tombol CTA */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link
-                href="https://wa.me/6285189300718?text=Halo,%20saya%20tertarik%20dengan%20paket%20INDIBIZ"
-                target="_blank"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors shadow-md"
-              >
-                <MessageCircle className="w-5 h-5" />
-                Hubungi via WhatsApp
-              </Link>
-              
-              <Link
-                href="#pricing"
-                className="inline-flex items-center justify-center gap-2 bg-white text-foreground border border-gray-200 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-              >
-                Lihat Paket
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+              </WALink>
             </div>
           </div>
 
-          {/* KOLOM KANAN: Visual / Gambar */}
-          <div className="flex-1 w-full">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white p-2">
-              {/* Placeholder Image (Bisa diganti gambar asli nanti) */}
-              <img 
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                alt="Indibiz Business Internet" 
-                className="w-full h-auto rounded-xl object-cover"
+          {/* ===== RIGHT: BLOB LOKAL + SVG ===== */}
+          <div className="flex-1 w-full flex justify-center relative">
+
+            {/* Blob gradient — hanya di area ini, bukan full section.
+               Bentuknya besar, rata di pojok kanan-atas, meniru wireframe */}
+            <div
+              className="absolute -z-10"
+              style={{
+                top: "-15%",
+                left: "-5%",
+                width: "115%",
+                height: "130%",
+                borderRadius: "40px 120px 120px 40px / 40px 90px 90px 40px",
+                background:
+                  "linear-gradient(160deg, #E4ECFF 0%, #D6E2FF 55%, #F3F6FF 100%)",
+              }}
+            />
+
+            <div
+              className="w-full max-w-[480px] relative z-10"
+              style={{
+                filter: "drop-shadow(0 25px 50px rgba(29,78,216,0.15))",
+              }}
+            >
+              <object
+                type="image/svg+xml"
+                data="/illustrations/online-connection.svg"
+                className="w-full h-auto"
               />
-              
-              {/* Floating Card (Hiasan biar mirip referensi) */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-100 hidden md:block">
-                <h3 className="font-bold text-foreground text-lg">Indibiz Ekosistem</h3>
-                <p className="text-sm text-muted mt-1">Solusi internet terbaik untuk UMKM, Perkantoran, hingga Corporate.</p>
-              </div>
             </div>
+
           </div>
 
         </div>
