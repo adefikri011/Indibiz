@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image"; // ✅ Import Image
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
@@ -10,7 +11,6 @@ import {
   FilePenLine,
   LayoutDashboard,
   LogOut,
-  PanelsTopLeft,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -42,9 +42,14 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             onClick={onClose}
             className="flex items-center gap-3"
           >
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#2f62d6]">
-              <PanelsTopLeft className="h-5 w-5 text-white" />
-            </div>
+            {/* ✅ LOGO IMAGE */}
+            <Image
+              src="/image/indibizlogo2.png"
+              alt="Indibiz Logo"
+              width={44}
+              height={44}
+              className="h-11 w-auto"
+            />
 
             <div>
               <h1 className="text-xl font-bold text-[#10182e]">
