@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X, MoreVertical } from "lucide-react";
+import { toast } from "sonner";
 
 type User = {
   id: string;
@@ -37,13 +38,14 @@ export default function UserTable({ initialUsers }: { initialUsers: User[] }) {
       if (res.ok) {
         const data = await res.json();
         setUsers(data.users);
+        toast.success("Daftar user berhasil diperbarui");
       } else {
         const e = await res.json().catch(() => null);
         const message = e?.error ?? `${res.status} ${res.statusText}`;
-        alert(`Gagal memuat daftar user: ${message}`);
+        toast.error(`Gagal memuat daftar user: ${message}`);
       }
     } catch (err: any) {
-      alert("Network error: " + (err?.message ?? err));
+      toast.error("Network error: " + (err?.message ?? err));
     } finally {
       setLoading(false);
     }
@@ -51,11 +53,11 @@ export default function UserTable({ initialUsers }: { initialUsers: User[] }) {
 
   async function createUser() {
     if (!createEmail) {
-      alert("Email wajib diisi");
+      toast.error("Email wajib diisi");
       return;
     }
     if (!createPassword) {
-      alert("Password wajib diisi");
+      toast.error("Password wajib diisi");
       return;
     }
     setLoading(true);
@@ -78,12 +80,13 @@ export default function UserTable({ initialUsers }: { initialUsers: User[] }) {
         setCreateEmail("");
         setCreatePassword("");
         setIsCreateOpen(false);
+        toast.success("User berhasil dibuat");
       } else {
         const e = await res.json().catch(() => ({}));
-        alert(e?.error ?? "Gagal membuat user");
+        toast.error(e?.error ?? "Gagal membuat user");
       }
     } catch (err: any) {
-      alert("Network error: " + (err?.message ?? err));
+      toast.error("Network error: " + (err?.message ?? err));
     } finally {
       setLoading(false);
     }
@@ -108,12 +111,13 @@ export default function UserTable({ initialUsers }: { initialUsers: User[] }) {
         setEditName(null);
         setEditPassword(null);
         setIsEditOpen(false);
+        toast.success("Perubahan user berhasil disimpan");
       } else {
         const e = await res.json().catch(() => ({}));
-        alert(e?.error ?? "Gagal menyimpan perubahan");
+        toast.error(e?.error ?? "Gagal menyimpan perubahan");
       }
     } catch (err: any) {
-      alert("Network error: " + (err?.message ?? err));
+      toast.error("Network error: " + (err?.message ?? err));
     } finally {
       setLoading(false);
     }
@@ -129,12 +133,13 @@ export default function UserTable({ initialUsers }: { initialUsers: User[] }) {
       if (res.ok) {
         setUsers((u) => u.filter((x) => x.id !== id));
         setDeleteId(null);
+        toast.success("User berhasil dihapus");
       } else {
         const e = await res.json().catch(() => ({}));
-        alert(e?.error ?? "Gagal menghapus user");
+        toast.error(e?.error ?? "Gagal menghapus user");
       }
     } catch (err: any) {
-      alert("Network error: " + (err?.message ?? err));
+      toast.error("Network error: " + (err?.message ?? err));
     } finally {
       setLoading(false);
     }
@@ -193,7 +198,10 @@ export default function UserTable({ initialUsers }: { initialUsers: User[] }) {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => navigator.clipboard.writeText(user.email)}
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(user.email);
+                        toast.success("Email berhasil disalin");
+                      }}
                     >
                       Copy Email
                     </Button>
@@ -263,7 +271,10 @@ export default function UserTable({ initialUsers }: { initialUsers: User[] }) {
                 {mobileMenuOpen === user.id && (
                   <div className="absolute right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-50 min-w-[120px]">
                     <button
-                      onClick={() => navigator.clipboard.writeText(user.email)}
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(user.email);
+                        toast.success("Email berhasil disalin");
+                      }}
                       className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 transition"
                     >
                       Copy Email
