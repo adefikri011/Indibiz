@@ -137,7 +137,7 @@ export default function Footer() {
                   className="w-1.5 h-1.5 rounded-full shrink-0"
                   style={{ backgroundColor: "#2F5FD0" }}
                 />
-                indibiz.co.id
+                indibizdatsum.com
               </li>
             </ul>
           </div>
