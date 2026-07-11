@@ -20,7 +20,11 @@ export default async function AdminLayout({
       <div className="flex min-h-screen">
         <AdminSidebar />
 
-        <main className="min-w-0 flex-1 p-6 lg:p-10">
+        {/*
+          pt-16     → beri ruang untuk mobile topbar (h-16)
+          lg:pt-0   → di desktop tidak perlu karena topbar tidak tampil
+        */}
+        <main className="min-w-0 flex-1 p-6 pt-20 lg:p-10 lg:pt-10">
           {children}
         </main>
       </div>

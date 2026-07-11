@@ -3,72 +3,73 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { Users } from "lucide-react";
 import {
+  Users,
+  Menu,
+  X,
   FilePenLine,
   LayoutDashboard,
   LogOut,
   PanelsTopLeft,
 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const menuItems = [
-  {
-    label: "Dashboard",
-    href: "/admin",
-    icon: LayoutDashboard,
-  },
-  {
-    label: "Pricing",
-    href: "/admin/landing",
-    icon: FilePenLine,
-  },
-  {
-    label: "User",
-    href: "/admin/users",
-    icon: Users,
-  },
+  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Pricing", href: "/admin/landing", icon: FilePenLine },
+  { label: "User", href: "/admin/users", icon: Users },
 ];
 
-export default function AdminSidebar() {
+function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
-    if (href === "/admin") {
-      return pathname === "/admin";
-    }
-
+    if (href === "/admin") return pathname === "/admin";
     return pathname.startsWith(href);
   };
 
   const handleLogout = async () => {
-    await signOut({
-      callbackUrl: "/login",
-    });
+    await signOut({ callbackUrl: "/login" });
   };
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-[280px] shrink-0 flex-col border-r border-slate-200 bg-white lg:flex">
+    <div className="flex h-full flex-col bg-white">
       {/* Brand */}
       <div className="border-b border-slate-100 px-6 py-6">
-        <Link href="/admin" className="flex items-center gap-3">
-          <div className="flex size-11 items-center justify-center rounded-xl bg-[#2f62d6] shadow-[0_8px_20px_rgba(47,98,214,0.25)]">
-            <PanelsTopLeft className="size-5 text-white" />
-          </div>
+        <div className="flex items-center justify-between">
+          <Link
+            href="/admin"
+            onClick={onClose}
+            className="flex items-center gap-3"
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#2f62d6]">
+              <PanelsTopLeft className="h-5 w-5 text-white" />
+            </div>
 
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-[#10182e]">
-              indibiz
-            </h1>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Landing Page Admin
-            </p>
-          </div>
-        </Link>
+            <div>
+              <h1 className="text-xl font-bold text-[#10182e]">
+                indibiz
+              </h1>
+              <p className="text-xs text-slate-500">
+                Landing Page Admin
+              </p>
+            </div>
+          </Link>
+
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="lg:hidden"
+            >
+              <X className="h-5 w-5 text-slate-500" />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Navigation */}
+      {/* Menu */}
       <div className="flex-1 px-4 py-6">
-        <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+        <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
           Menu utama
         </p>
 
@@ -81,53 +82,92 @@ export default function AdminSidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
+                onClick={onClose}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition ${
                   active
-                    ? "bg-[#edf3ff] text-[#2f62d6] shadow-[inset_3px_0_0_#2f62d6]"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-[#10182e]"
+                    ? "bg-[#edf3ff] text-[#2f62d6]"
+                    : "text-slate-600 hover:bg-slate-50"
                 }`}
               >
                 <Icon
-                  className={`size-5 transition-colors ${
-                    active
-                      ? "text-[#2f62d6]"
-                      : "text-slate-400 group-hover:text-[#2f62d6]"
+                  className={`h-5 w-5 ${
+                    active ? "text-[#2f62d6]" : "text-slate-400"
                   }`}
                 />
-
-                <span>{item.label}</span>
+                {item.label}
               </Link>
             );
           })}
         </nav>
       </div>
 
-      {/* Admin & logout */}
+      {/* Logout */}
       <div className="border-t border-slate-100 p-4">
-        <div className="mb-3 flex items-center gap-3 rounded-xl bg-[#f7f9fd] p-3">
-          <div className="flex size-10 items-center justify-center rounded-full bg-[#2f62d6] text-sm font-bold text-white">
-            A
-          </div>
-
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-[#10182e]">
-              Administrator
-            </p>
-            <p className="truncate text-xs text-slate-500">
-              admin@gmail.com
-            </p>
-          </div>
-        </div>
-
         <button
-          type="button"
           onClick={handleLogout}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-red-50 hover:text-red-600"
         >
-          <LogOut className="size-4" />
+          <LogOut className="h-4 w-4" />
           Keluar
         </button>
       </div>
-    </aside>
+    </div>
+  );
+}
+
+export default function AdminSidebar() {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Tutup saat pindah halaman
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Lock scroll
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <>
+      {/* ✅ BURGER BUTTON (PASTI MUNCUL DI MOBILE) */}
+      <button
+        onClick={() => setOpen(true)}
+        className="fixed top-4 left-4 z-[100] rounded-lg bg-white p-2 shadow-lg ring-1 ring-slate-200 lg:hidden"
+      >
+        <Menu className="h-6 w-6 text-slate-700" />
+      </button>
+
+      {/* ✅ DESKTOP SIDEBAR */}
+      <aside className="hidden h-screen w-[280px] shrink-0 border-r border-slate-200 bg-white lg:flex">
+        <SidebarContent />
+      </aside>
+
+      {/* ✅ OVERLAY */}
+      {open && (
+        <div
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-[90] bg-black/40 lg:hidden"
+        />
+      )}
+
+      {/* ✅ MOBILE DRAWER */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-[100] w-[280px] transform bg-white shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <SidebarContent onClose={() => setOpen(false)} />
+      </aside>
+    </>
   );
 }
