@@ -11,22 +11,35 @@ import {
   FilePenLine,
   LayoutDashboard,
   LogOut,
+  HelpCircle,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const menuItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Pricing", href: "/admin/landing", icon: FilePenLine },
+  { label: "FAQ", href: "/admin/landing/faq", icon: HelpCircle },
   { label: "User", href: "/admin/users", icon: Users },
 ];
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
-  const isActive = (href: string) => {
-    if (href === "/admin") return pathname === "/admin";
-    return pathname.startsWith(href);
-  };
+  // Cari menu paling spesifik yang cocok dengan pathname saat ini,
+  // supaya kalau ada nested route (mis. /admin/landing dan /admin/landing/faq)
+  // yang aktif cuma satu — yang paling dalam/spesifik.
+  const activeHref = (() => {
+    const matches = menuItems.filter(
+      (item) =>
+        pathname === item.href || pathname.startsWith(item.href + "/")
+    );
+    if (matches.length === 0) return null;
+    return matches.reduce((longest, current) =>
+      current.href.length > longest.href.length ? current : longest
+    ).href;
+  })();
+
+  const isActive = (href: string) => href === activeHref;
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/login" });
