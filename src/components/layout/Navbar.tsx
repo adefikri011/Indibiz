@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Link from "next/link";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -74,12 +75,28 @@ export default function Navbar() {
 
             {/* Text */}
             <div className="flex flex-col leading-tight">
-              <span
-                className="text-lg md:text-xl font-bold transition-colors duration-300 ease-out"
-                style={{ color: "#0F172A" }}
-              >
-                indibiz
-              </span>
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <span
+                  className="text-lg md:text-xl font-bold transition-colors duration-300 ease-out"
+                  style={{ color: "#0F172A" }}
+                >
+                  <span style={{ color: "#2F5FD0" }}>i</span>ndibiz
+                </span>
+
+                {/* Divider + Lokasi — Datel Sumedang */}
+                <span className="flex h-4 w-px shrink-0" style={{ backgroundColor: "rgba(148,163,184,0.4)" }} />
+                <span
+                  className="inline-flex items-center gap-1 text-[9px] md:text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-colors duration-300 ease-out"
+                  style={{ color: "#64748B" }}
+                >
+                  <MapPin
+                    className="h-2.5 w-2.5 md:h-3 md:w-3 shrink-0"
+                    style={{ color: "#2F5FD0" }}
+                    strokeWidth={2.5}
+                  />
+                  Datel Sumedang
+                </span>
+              </div>
 
               {/* Tagline — lebih kecil di mobile */}
               <span

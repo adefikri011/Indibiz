@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Map, MapMarker, MarkerContent, MarkerPopup } from "@/components/ui/map"
 import { useRef, useState } from "react"
 import type { MapRef } from "@/components/ui/map"
+import { MapPin } from "lucide-react";
 
 export default function Footer() {
   const mapRef = useRef<MapRef>(null)
@@ -26,7 +27,7 @@ export default function Footer() {
       gmaps: "https://maps.app.goo.gl/qtDMTMe3342SXZHy5"
     },
     cja: {
-      name: "Area CJA",
+      name: "Cijawura",
       latitude: -6.9599248,
       longitude: 107.6622998,
       gmaps: "https://maps.app.goo.gl/N9u9h3FJK5T552CQ6"
@@ -71,9 +72,28 @@ export default function Footer() {
                 height={32}
                 className="shrink-0"
               />
-              <h3 className="text-2xl font-bold tracking-tight">
-                <span style={{ color: "#2F5FD0" }}>i</span>ndibiz
-              </h3>
+              <div className="flex items-center gap-1.5">
+                <h3 className="text-2xl font-bold tracking-tight">
+                  <span style={{ color: "#2F5FD0" }}>i</span>ndibiz
+                </h3>
+
+                {/* Divider + Lokasi — Datel Sumedang */}
+                <span
+                  className="h-5 w-px shrink-0"
+                  style={{ backgroundColor: "rgba(148,163,184,0.3)" }}
+                />
+                <span
+                  className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap"
+                  style={{ color: "#94A3B8" }}
+                >
+                  <MapPin
+                    className="h-3 w-3 shrink-0"
+                    style={{ color: "#94A3B8" }}
+                    strokeWidth={2.5}
+                  />
+                  Datel Sumedang
+                </span>
+              </div>
             </div>
 
             <p className="text-sm font-medium text-gray-300 mb-3 italic">
