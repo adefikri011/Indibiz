@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@/styles/animation.css";
 import { Toaster } from "sonner";
+import Script from "next/script"; 
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -14,13 +15,11 @@ export const metadata: Metadata = {
   title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
   description: "Solusi internet stabil, simetris, dan unlimited untuk semua kebutuhan bisnis Anda.",
   
-  // 1. Konfigurasi Favicon / Icon Browser
   icons: {
     icon: "/image/indibizlogo2.png",
     apple: "/image/indibizlogo2.png",
   },
 
-  // 2. Konfigurasi Link Preview untuk WhatsApp, Telegram, Facebook, dll.
   openGraph: {
     title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
     description: "Solusi internet stabil, simetris, dan unlimited untuk semua kebutuhan bisnis Anda.",
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
     siteName: "Indibiz Datsum",
     images: [
       {
-        url: "https://www.indibizdatsum.com/image/indibizlogo2.png", // URL absolut gambar preview
+        url: "https://www.indibizdatsum.com/image/indibizlogo2.png",
         width: 1200,
         height: 630,
         alt: "INDIBIZ Telkom Indonesia",
@@ -38,7 +37,6 @@ export const metadata: Metadata = {
     type: "website",
   },
 
-  // 3. Konfigurasi Link Preview khusus Twitter/X
   twitter: {
     card: "summary_large_image",
     title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
@@ -64,6 +62,14 @@ export default function RootLayout({
         <MetaPixel />
 
         {children}
+
+        {/* ✅ UMAMI ANALYTICS */}
+        <Script
+          async
+          src="https://cloud.umami.is/script.js"
+          data-website-id="41442e7f-fbfe-40d1-945c-cca5d9eb3e5a"
+          strategy="afterInteractive"
+        />
 
         {/* <FloatingWhatsApp /> */}
 
