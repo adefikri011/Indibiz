@@ -9,8 +9,7 @@ import FAQ from "@/components/section/FAQ";
 import PromoAndCTA from "@/components/section/PromoAndCTA";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 
 export default function Home() {
