@@ -91,7 +91,7 @@ export default function Navbar() {
                 >
                   <MapPin
                     className="h-2.5 w-2.5 md:h-3 md:w-3 shrink-0"
-                    style={{ color: "#2F5FD0" }}
+                    style={{ color: "#E4002B" }}
                     strokeWidth={2.5}
                   />
                   Datel Sumedang
@@ -110,24 +110,14 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Button — hanya muncul di desktop (md ke atas) */}
-          <Link
-            href="https://wa.me/6285189300718?text=Halo%20saya%20tertarik%20dengan%20INDIBIZ"
-            target="_blank"
-            onClick={handleClick}
-            className="hidden md:block"
-          >
-            <div
-              className="px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 cursor-pointer"
-              style={{
-                backgroundColor: "#2F5FD0",
-                color: "#FFFFFF",
-                boxShadow: "0 4px 14px rgba(29,78,216,0.25)",
-              }}
-            >
-              Hubungi Kami
-            </div>
-          </Link>
+          {/* Logo Telkom Indonesia — menggantikan tombol Hubungi Kami */}
+          <Image
+            src="/image/logo_telkom.png"
+            alt="Telkom Indonesia"
+            width={160}
+            height={160}
+            className="h-10 md:h-14 w-auto object-contain"
+          />
 
         </div>
       </Container>
