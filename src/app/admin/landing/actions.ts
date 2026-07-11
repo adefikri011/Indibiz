@@ -42,3 +42,66 @@ export async function updatePricing(formData: FormData) {
 
   revalidatePath("/admin/landing");
 }
+
+export async function createPricing(formData: FormData) {
+  const speed = Number(formData.get("speed"));
+  const normalPrice = Number(formData.get("normalPrice"));
+  const priceRaw = Number(formData.get("price"));
+
+  const price = priceRaw === 0 ? normalPrice : priceRaw;
+
+  const lastPlan = await prisma.pricingPlan.findFirst({
+    orderBy: { order: "desc" },
+  });
+
+  const nextOrder = lastPlan ? lastPlan.order + 1 : 0;
+
+  await prisma.pricingPlan.create({
+    data: {
+      speed,
+      normalPrice,
+      price,
+      order: nextOrder,
+      isPopular: false,
+    },
+  });
+
+  revalidatePath("/admin/landing");
+}
+
+export async function deletePricing(id: string) {
+  if (!id) return;
+
+  await prisma.pricingFeature.deleteMany({
+    where: { planId: id },
+  });
+
+  await prisma.pricingPlan.deleteMany({
+    where: { id },
+  });
+
+  revalidatePath("/admin/landing");
+}
+
+export async function addFeature(planId: string, name: string) {
+  if (!planId || !name) return;
+
+  await prisma.pricingFeature.create({
+    data: {
+      name,
+      planId,
+    },
+  });
+
+  revalidatePath("/admin/landing");
+}
+
+export async function deleteFeature(id: string) {
+  if (!id) return;
+
+  await prisma.pricingFeature.deleteMany({
+    where: { id },
+  });
+
+  revalidatePath("/admin/landing");
+}
