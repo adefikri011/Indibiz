@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "Solusi internet stabil, simetris, dan unlimited untuk semua kebutuhan bisnis Anda.",
   
   verification: {
-    google: "google9c0552f430b94b75",
+    google: "8V_d-TsI3iNt08bgo34g5Aed55mR1Cpm68eSwBUVA-w",
   },
 
   icons: {
