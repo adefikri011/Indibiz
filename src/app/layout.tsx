@@ -11,9 +11,10 @@ import Script from "next/script";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
-  description: "Solusi internet stabil, simetris, dan unlimited untuk semua kebutuhan bisnis Anda.",
-  
+  title: "Indibiz Sumedang & Bandung - Internet Bisnis Stabil & Unlimited | Telkom Indonesia",
+  description:
+    "Indibiz Datel Sumedang menyediakan layanan internet bisnis stabil, simetris & unlimited untuk area Sumedang, Bandung, Cijawura, dan Tanjungsari. Solusi terbaik untuk kantor & UMKM.",
+
   verification: {
     google: "8V_d-TsI3iNt08bgo34g5Aed55mR1Cpm68eSwBUVA-w",
   },
@@ -24,16 +25,18 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
-    description: "Solusi internet stabil, simetris, dan unlimited untuk semua kebutuhan bisnis Anda.",
+    title:
+      "Indibiz Sumedang & Bandung - Internet Bisnis Stabil & Unlimited",
+    description:
+      "Layanan internet bisnis Indibiz untuk wilayah Sumedang, Bandung, Cijawura & Tanjungsari. Stabil, simetris dan unlimited untuk kebutuhan usaha Anda.",
     url: "https://www.indibizdatsum.com",
-    siteName: "Indibiz Datsum",
+    siteName: "Indibiz Datel Sumedang",
     images: [
       {
         url: "https://www.indibizdatsum.com/image/indibizlogo2.png",
         width: 1200,
         height: 630,
-        alt: "INDIBIZ Telkom Indonesia",
+        alt: "Indibiz Datel Sumedang Telkom Indonesia",
       },
     ],
     locale: "id_ID",
@@ -42,9 +45,13 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
-    description: "Solusi internet stabil, simetris, dan unlimited untuk semua kebutuhan bisnis Anda.",
-    images: ["https://www.indibizdatsum.com/image/indibizlogo2.png"],
+    title:
+      "Indibiz Sumedang - Internet Bisnis Stabil & Unlimited",
+    description:
+      "Internet bisnis stabil & unlimited untuk area Sumedang, Bandung, Cijawura, dan Tanjungsari.",
+    images: [
+      "https://www.indibizdatsum.com/image/indibizlogo2.png",
+    ],
   },
 };
 
