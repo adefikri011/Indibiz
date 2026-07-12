@@ -6,14 +6,15 @@ import { cn } from "@/lib/utils";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@/styles/animation.css";
 import { Toaster } from "sonner";
-import Script from "next/script"; 
+import Script from "next/script";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Indibiz Sumedang & Bandung - Internet Bisnis Stabil & Unlimited | Telkom Indonesia",
+  title:
+    "Internet Bisnis Stabil untuk Pertumbuhan Usaha | Indibiz Datel Sumedang Telkom Indonesia",
   description:
-    "Indibiz Datel Sumedang menyediakan layanan internet bisnis stabil, simetris & unlimited untuk area Sumedang, Bandung, Cijawura, dan Tanjungsari. Solusi terbaik untuk kantor & UMKM.",
+    "Indibiz Datel Sumedang menghadirkan layanan internet bisnis stabil, simetris dan tanpa FUP untuk area Sumedang, Bandung, Cijawura dan Tanjungsari. Solusi terbaik untuk kantor, UMKM dan perusahaan.",
 
   verification: {
     google: "8V_d-TsI3iNt08bgo34g5Aed55mR1Cpm68eSwBUVA-w",
@@ -26,9 +27,9 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Indibiz Sumedang & Bandung - Internet Bisnis Stabil & Unlimited",
+      "Internet Bisnis Stabil | Indibiz Datel Sumedang",
     description:
-      "Layanan internet bisnis Indibiz untuk wilayah Sumedang, Bandung, Cijawura & Tanjungsari. Stabil, simetris dan unlimited untuk kebutuhan usaha Anda.",
+      "Layanan internet bisnis stabil dan unlimited untuk wilayah Sumedang, Bandung, Cijawura & Tanjungsari.",
     url: "https://www.indibizdatsum.com",
     siteName: "Indibiz Datel Sumedang",
     images: [
@@ -45,10 +46,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title:
-      "Indibiz Sumedang - Internet Bisnis Stabil & Unlimited",
+    title: "Internet Bisnis Stabil | Indibiz Sumedang",
     description:
-      "Internet bisnis stabil & unlimited untuk area Sumedang, Bandung, Cijawura, dan Tanjungsari.",
+      "Internet bisnis stabil dan unlimited untuk area Sumedang dan Bandung.",
     images: [
       "https://www.indibizdatsum.com/image/indibizlogo2.png",
     ],
