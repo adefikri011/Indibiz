@@ -1,6 +1,5 @@
 import { Metadata, Viewport } from "next";
 import "./globals.css";
-import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import MetaPixel from "@/components/MetaPixel";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -15,6 +14,10 @@ export const metadata: Metadata = {
   title: "INDIBIZ - Internet Digital Bisnis by Telkom Indonesia",
   description: "Solusi internet stabil, simetris, dan unlimited untuk semua kebutuhan bisnis Anda.",
   
+  verification: {
+    google: "google9c0552f430b94b75",
+  },
+
   icons: {
     icon: "/image/indibizlogo2.png",
     apple: "/image/indibizlogo2.png",
@@ -63,15 +66,12 @@ export default function RootLayout({
 
         {children}
 
-        {/* ✅ UMAMI ANALYTICS */}
         <Script
           async
           src="https://cloud.umami.is/script.js"
           data-website-id="41442e7f-fbfe-40d1-945c-cca5d9eb3e5a"
           strategy="afterInteractive"
         />
-
-        {/* <FloatingWhatsApp /> */}
 
         <Toaster position="top-right" richColors closeButton />
       </body>
