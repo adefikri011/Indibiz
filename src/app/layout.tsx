@@ -21,8 +21,8 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/image/indibizlogo2.png",
-    apple: "/image/indibizlogo2.png",
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 
   openGraph: {
