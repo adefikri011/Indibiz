@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "Indibiz Datel Sumedang",
     images: [
       {
-        url: "https://www.indibizdatsum.com/image/indibizlogo2.png",
+        url: "https://www.indibizdatsum.com/image/logo_indibiz.jpg",
         width: 1200,
         height: 630,
         alt: "Indibiz Datel Sumedang Telkom Indonesia",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     description:
       "Internet bisnis stabil dan unlimited untuk area Sumedang dan Bandung.",
     images: [
-      "https://www.indibizdatsum.com/image/indibizlogo2.png",
+      "https://www.indibizdatsum.com/image/logo_indibiz.jpg",
     ],
   },
 };
