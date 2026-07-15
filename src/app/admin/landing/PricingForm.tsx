@@ -8,19 +8,22 @@ export default function PricingForm({
   action,
   successMessage = "Perubahan berhasil disimpan",
   errorMessage = "Gagal menyimpan perubahan",
+  onSuccess,
 }: {
   children: React.ReactNode;
   action: (formData: FormData) => Promise<void>;
   successMessage?: string;
   errorMessage?: string;
+  onSuccess?: () => void;
 }) {
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
       try {
         await action(formData);
         toast.success(successMessage);
+        onSuccess?.();
       } catch {
         toast.error(errorMessage);
       }

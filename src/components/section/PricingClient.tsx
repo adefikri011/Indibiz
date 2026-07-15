@@ -1,303 +1,431 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import Container from "@/components/ui/Container";
 import WALink from "@/components/ui/WALink";
-import { Check, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, Star, ChevronDown, Filter, Zap, Gauge } from "lucide-react";
+import { Prisma } from "@prisma/client";
 
-type Feature = {
-  id: string;
-  name: string;
-};
+// ✅ 1. Gunakan Type langsung dari Prisma supaya aman saat di-build
+type PlanWithRelations = Prisma.PricingPlanGetPayload<{
+  include: {
+    features: true;
+    product: {
+      include: {
+        category: true;
+      };
+    };
+  };
+}>;
 
-type Plan = {
-  id: string;
-  speed: number;
-  normalPrice: number;
-  price: number;
-  isPopular: boolean;
-  order: number;
-  features: Feature[];
-};
+export default function PricingClient({
+  plans,
+}: {
+  plans: PlanWithRelations[];
+}) {
+  const [showAll, setShowAll] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedSpeed, setSelectedSpeed] = useState<string>("all");
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isSpeedOpen, setIsSpeedOpen] = useState(false);
 
-type Props = {
-  plans: Plan[];
-};
-
-export default function PricingClient({ plans }: Props) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -320, behavior: "smooth" });
+  // ✅ Group & Sort Plans by Category (Aman dengan optional chaining ?.)
+  const groupedPlans = plans.reduce((acc, plan) => {
+    const categoryName = plan.product?.category?.name ?? "Lainnya";
+    if (!acc[categoryName]) {
+      acc[categoryName] = [];
     }
+    acc[categoryName].push(plan);
+    return acc;
+  }, {} as Record<string, PlanWithRelations[]>);
+
+  // Sort each group by speed
+  Object.keys(groupedPlans).forEach((key) => {
+    groupedPlans[key].sort((a, b) => a.speed - b.speed);
+  });
+
+  // Flatten back to array but grouped
+  const sortedPlans = Object.values(groupedPlans).flat();
+
+  // ✅ Filter Plans
+  const filteredPlans = sortedPlans.filter((plan) => {
+    const categoryMatch =
+      selectedCategory === "all" ||
+      plan.product?.category?.name === selectedCategory;
+    const speedMatch =
+      selectedSpeed === "all" || plan.speed.toString() === selectedSpeed;
+    return categoryMatch && speedMatch;
+  });
+
+  // ✅ Show only 6 plans initially
+  const displayedPlans = showAll ? filteredPlans : filteredPlans.slice(0, 6);
+
+  // ✅ Get unique categories for filter
+  const categories = Array.from(
+    new Set(plans.map((p) => p.product?.category?.name ?? "Lainnya"))
+  );
+
+  // ✅ Get unique speeds for filter
+  const speeds = Array.from(new Set(plans.map((p) => p.speed))).sort(
+    (a, b) => a - b
+  );
+
+  // ✅ Close dropdown when clicking outside
+  const closeDropdowns = () => {
+    setIsCategoryOpen(false);
+    setIsSpeedOpen(false);
   };
 
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 320, behavior: "smooth" });
-    }
-  };
+  if (!plans || plans.length === 0) {
+    return (
+      <section id="pricing" className="py-16 bg-white">
+        <Container>
+          <p className="text-center text-gray-400">Paket belum tersedia</p>
+        </Container>
+      </section>
+    );
+  }
 
   return (
-    <section id="pricing" className="py-16 md:py-24 bg-white">
+    <section id="pricing" className="py-16 md:py-24 bg-white" onClick={closeDropdowns}>
       <Container>
-        <div className="mb-14 max-w-3xl mx-auto text-center">
-          <h2
-            data-animate="scale"
-            className="text-3xl md:text-4xl font-bold mb-4"
-            style={{
-              ["--animate-delay" as never]: "40ms",
-              color: "#0F172A",
-            }}
-          >
-            Pilih <span style={{ color: "#2F5FD0" }}>Paket</span> Sesuai
+
+        {/* HEADER */}
+        <div className="mb-10 max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#0F172A]">
+            Pilih <span className="text-[#2F5FD0]">Paket</span> Sesuai
             Kebutuhan
           </h2>
-
-          <p
-            data-animate
-            className="text-lg"
-            style={{
-              ["--animate-delay" as never]: "120ms",
-              color: "#64748B",
-            }}
-          >
+          <p className="text-lg text-[#64748B]">
             Harga terjangkau, kualitas enterprise. Semua paket sudah termasuk
             unlimited tanpa FUP dan tagihan flat setiap bulan.
           </p>
         </div>
 
-        <div className="relative">
-          <button
-            onClick={scrollLeft}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 hidden md:flex"
-            style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}
-            aria-label="Scroll kiri"
-          >
-            <ChevronLeft className="w-5 h-5" style={{ color: "#2F5FD0" }} />
-          </button>
+        {/* ✅ PROFESSIONAL FILTER DROPDOWNS */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          
+          {/* Category Filter */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsCategoryOpen(!isCategoryOpen);
+                setIsSpeedOpen(false);
+              }}
+              className={`flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 text-sm font-medium transition shadow-sm hover:shadow-md ${
+                isCategoryOpen
+                  ? "border-[#2F5FD0] ring-2 ring-[#2F5FD0]/20"
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              <Filter className="w-4 h-4 text-[#2F5FD0]" />
+              <span className="text-gray-700">
+                {selectedCategory === "all"
+                  ? "Semua Paket"
+                  : selectedCategory.length > 25
+                  ? selectedCategory.substring(0, 25) + "..."
+                  : selectedCategory}
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 text-gray-400 transition-transform ${
+                  isCategoryOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
 
-          <button
-            onClick={scrollRight}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 hidden md:flex"
-            style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}
-            aria-label="Scroll kanan"
-          >
-            <ChevronRight className="w-5 h-5" style={{ color: "#2F5FD0" }} />
-          </button>
-
-          <div
-            className="absolute left-0 top-0 bottom-6 w-8 z-10 pointer-events-none hidden md:block"
-            style={{
-              background: "linear-gradient(to right, #F8FAFC, transparent)",
-            }}
-          />
-
-          <div
-            className="absolute right-0 top-0 bottom-6 w-8 z-10 pointer-events-none hidden md:block"
-            style={{
-              background: "linear-gradient(to left, #F8FAFC, transparent)",
-            }}
-          />
-
-          <div
-            ref={scrollRef}
-            className="flex gap-5 overflow-x-auto pb-8 pt-6 px-2"
-            style={{
-              scrollSnapType: "x mandatory",
-              WebkitOverflowScrolling: "touch",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
-            {plans.map((plan) => {
-              const finalPrice =
-                !plan.price || plan.price <= 0 ? plan.normalPrice : plan.price;
-
-              const hasDiscount =
-                plan.normalPrice > 0 &&
-                finalPrice > 0 &&
-                plan.normalPrice !== finalPrice;
-
-              return (
-                <div
-                  key={plan.id}
-                  data-animate="scale"
-                  className="relative flex flex-col flex-shrink-0 rounded-2xl p-6 transition-all duration-300"
-                  style={{
-                    ["--animate-delay" as never]: `${plan.speed === 100 ? 180 : 120 + plan.speed / 2}ms`,
-                    width: "270px",
-                    scrollSnapAlign: "start",
-                    backgroundColor: plan.isPopular ? "#2F5FD0" : "#FFFFFF",
-                    border: plan.isPopular
-                      ? "2px solid #2F5FD0"
-                      : "1px solid #E2E8F0",
-                    boxShadow: plan.isPopular
-                      ? "0 20px 40px rgba(47, 95, 208, 0.25)"
-                      : "0 2px 12px rgba(0,0,0,0.06)",
-                    marginTop: plan.isPopular ? "0" : "8px",
-                  }}
-                >
-                  {plan.isPopular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span
-                        className="inline-flex items-center gap-1 text-sm font-bold px-4 py-1.5 rounded-full shadow-md whitespace-nowrap"
-                        style={{
-                          backgroundColor: "#FCD34D",
-                          color: "#78350F",
-                        }}
-                      >
-                        <Star className="w-4 h-4 fill-current" />
-                        POPULER
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="mb-3 mt-2">
-                    <span
-                      className="inline-flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full"
-                      style={{
-                        backgroundColor: plan.isPopular
-                          ? "rgba(255,255,255,0.15)"
-                          : "#DCFCE7",
-                        color: plan.isPopular ? "#FFFFFF" : "#15803D",
-                      }}
-                    >
-                      <Check className="w-3 h-3" />
-                      Mulai Dari
-                    </span>
-                  </div>
-
-                  <div className="flex items-end gap-1 mb-1">
-                    <span
-                      className="text-5xl font-extrabold leading-none"
-                      style={{ color: plan.isPopular ? "#FFFFFF" : "#0F172A" }}
-                    >
-                      {plan.speed}
-                    </span>
-                    <span
-                      className="text-lg font-bold mb-1"
-                      style={{ color: plan.isPopular ? "#BFDBFE" : "#64748B" }}
-                    >
-                      Mbps
-                    </span>
-                  </div>
-
-                  {hasDiscount && (
-                    <p
-                      className="text-sm line-through mb-1"
-                      style={{ color: plan.isPopular ? "#BFDBFE" : "#94A3B8" }}
-                    >
-                      Rp {plan.normalPrice.toLocaleString("id-ID")}
-                    </p>
-                  )}
-
-                  <div className="flex items-baseline gap-1 mb-5">
-                    <span
-                      className="text-sm font-semibold"
-                      style={{ color: plan.isPopular ? "#BFDBFE" : "#64748B" }}
-                    >
-                      Rp
-                    </span>
-                    <span
-                      className="text-2xl font-extrabold"
-                      style={{ color: plan.isPopular ? "#FFFFFF" : "#2F5FD0" }}
-                    >
-                      {finalPrice.toLocaleString("id-ID")}
-                    </span>
-                    <span
-                      className="text-sm"
-                      style={{ color: plan.isPopular ? "#BFDBFE" : "#64748B" }}
-                    >
-                      /bulan
-                    </span>
-                  </div>
-
-                  <div
-                    className="h-px w-full mb-4"
-                    style={{
-                      backgroundColor: plan.isPopular
-                        ? "rgba(255,255,255,0.2)"
-                        : "#F1F5F9",
+            {/* Dropdown Menu */}
+            {isCategoryOpen && (
+              <div className="absolute top-full left-0 mt-2 w-72 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="max-h-64 overflow-y-auto">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedCategory("all");
+                      setIsCategoryOpen(false);
                     }}
-                  />
-
-                  <ul className="space-y-2 mb-6 flex-1">
-                    {plan.features.map((feature) => (
-                      <li key={feature.id} className="flex items-center gap-2">
-                        <div
-                          className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
-                          style={{
-                            backgroundColor: plan.isPopular
-                              ? "rgba(255,255,255,0.2)"
-                              : "#EFF6FF",
-                          }}
-                        >
-                          <Check
-                            className="w-2.5 h-2.5"
-                            style={{
-                              color: plan.isPopular ? "#FFFFFF" : "#2F5FD0",
-                            }}
-                          />
-                        </div>
-                        <span
-                          className="text-sm"
-                          style={{
-                            color: plan.isPopular ? "#BFDBFE" : "#475569",
-                          }}
-                        >
-                          {feature.name}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <WALink
-                    href={`https://wa.me/6285189300718?text=Halo%20Deska,%20saya%20tertarik%20paket%20INDIBIZ%20${plan.speed}%20Mbps%20seharga%20Rp%20${finalPrice.toLocaleString("id-ID")}/bulan`}
+                    className={`w-full text-left px-4 py-2.5 text-sm transition ${
+                      selectedCategory === "all"
+                        ? "bg-[#2F5FD0]/10 text-[#2F5FD0] font-semibold"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
                   >
-                    <div
-                      data-animate="slide-left"
-                      className="w-full py-2.5 rounded-xl font-semibold text-center text-sm cursor-pointer hover:opacity-90 transition-opacity"
-                      style={{
-                        ["--animate-delay" as never]: "240ms",
-                        backgroundColor: plan.isPopular ? "#FFFFFF" : "#2F5FD0",
-                        color: plan.isPopular ? "#2F5FD0" : "#FFFFFF",
+                    Semua Paket
+                  </button>
+                  <div className="h-px bg-gray-100" />
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => {
+                        setSelectedCategory(cat);
+                        setIsCategoryOpen(false);
                       }}
+                      className={`w-full text-left px-4 py-2.5 text-sm transition ${
+                        selectedCategory === cat
+                          ? "bg-[#2F5FD0]/10 text-[#2F5FD0] font-semibold"
+                          : "text-gray-700 hover:bg-gray-50"
+                      }`}
                     >
-                      Pilih Paket {plan.speed} Mbps
-                    </div>
-                  </WALink>
+                      {cat}
+                    </button>
+                  ))}
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
 
-          <div className="flex justify-center mt-1 md:hidden">
-            <p className="text-xs" style={{ color: "#94A3B8" }}>
-              ← Geser untuk lihat paket lainnya →
-            </p>
+          {/* Speed Filter */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsSpeedOpen(!isSpeedOpen);
+                setIsCategoryOpen(false);
+              }}
+              className={`flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 text-sm font-medium transition shadow-sm hover:shadow-md ${
+                isSpeedOpen
+                  ? "border-[#2F5FD0] ring-2 ring-[#2F5FD0]/20"
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              <Gauge className="w-4 h-4 text-[#2F5FD0]" />
+              <span className="text-gray-700">
+                {selectedSpeed === "all"
+                  ? "Semua Kecepatan"
+                  : `${selectedSpeed} Mbps`}
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 text-gray-400 transition-transform ${
+                  isSpeedOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {/* Dropdown Menu */}
+            {isSpeedOpen && (
+              <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="max-h-64 overflow-y-auto">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedSpeed("all");
+                      setIsSpeedOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2.5 text-sm transition ${
+                      selectedSpeed === "all"
+                        ? "bg-[#2F5FD0]/10 text-[#2F5FD0] font-semibold"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    Semua Kecepatan
+                  </button>
+                  <div className="h-px bg-gray-100" />
+                  {speeds.map((speed) => (
+                    <button
+                      key={speed}
+                      type="button"
+                      onClick={() => {
+                        setSelectedSpeed(speed.toString());
+                        setIsSpeedOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2.5 text-sm transition flex items-center justify-between ${
+                        selectedSpeed === speed.toString()
+                          ? "bg-[#2F5FD0]/10 text-[#2F5FD0] font-semibold"
+                          : "text-gray-700 hover:bg-gray-50"
+                      }`}
+                    >
+                      <span>{speed} Mbps</span>
+                      {selectedSpeed === speed.toString() && (
+                        <Check className="w-4 h-4" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* Reset Filter */}
+          {(selectedCategory !== "all" || selectedSpeed !== "all") && (
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedCategory("all");
+                setSelectedSpeed("all");
+              }}
+              className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#2F5FD0] transition px-4 py-2.5"
+            >
+              <Zap className="w-4 h-4" />
+              Reset Filter
+            </button>
+          )}
         </div>
 
-        <div className="mt-10 text-center">
-          <div
-            data-animate="scale"
-            className="inline-block px-6 py-3 rounded-2xl"
-            style={{
-              ["--animate-delay" as never]: "220ms",
-              backgroundColor: "#EFF6FF",
-            }}
-          >
-            <p className="text-sm font-medium" style={{ color: "#64748B" }}>
+        {/* ✅ GRID - 3 COLUMNS, MAX 2 ROWS (6 PLANS) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          {displayedPlans.map((plan) => {
+            const finalPrice =
+              !plan.price || plan.price <= 0
+                ? plan.normalPrice
+                : plan.price;
+
+            const hasDiscount = plan.normalPrice !== finalPrice;
+
+            return (
+              <div
+                key={plan.id}
+                className={`relative flex flex-col rounded-2xl p-6 transition-all duration-300 ${
+                  plan.isPopular
+                    ? "bg-[#2F5FD0] text-white shadow-xl"
+                    : "bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-[#2F5FD0]/30"
+                }`}
+              >
+                {/* POPULAR BADGE */}
+                {plan.isPopular && (
+                  <div className="absolute -top-3 right-4">
+                    <span className="inline-flex items-center text-xs font-bold px-3 py-1 rounded-full bg-red-500 text-white shadow-sm">
+                      <Star className="w-3 h-3 mr-1 fill-current" />
+                      Promo Spesial
+                    </span>
+                  </div>
+                )}
+
+                {/* CATEGORY BADGE */}
+                <div className="mb-4 mt-2">
+                  <span
+                    className={`inline-flex items-center text-[11px] font-semibold px-3 py-1 rounded-full truncate max-w-[240px] ${
+                      plan.isPopular
+                        ? "bg-white/20 text-white"
+                        : "bg-blue-50 text-[#2F5FD0]"
+                    }`}
+                  >
+                    {plan.product?.category?.name ?? "Lainnya"}
+                  </span>
+                </div>
+
+                {/* SPEED */}
+                <div className="flex items-end gap-1 mb-2">
+                  <span
+                    className={`text-5xl font-extrabold leading-none ${
+                      plan.isPopular ? "text-white" : "text-[#0F172A]"
+                    }`}
+                  >
+                    {plan.speed}
+                  </span>
+                  <span
+                    className={`text-lg font-bold mb-1 ${
+                      plan.isPopular ? "text-blue-100" : "text-gray-500"
+                    }`}
+                  >
+                    Mbps
+                  </span>
+                </div>
+
+                {/* PRICE */}
+                <div className="flex items-baseline gap-1 mb-4">
+                  <span
+                    className={`text-sm font-semibold ${
+                      plan.isPopular ? "text-blue-100" : "text-gray-500"
+                    }`}
+                  >
+                    Rp
+                  </span>
+                  <span
+                    className={`text-2xl font-extrabold ${
+                      plan.isPopular ? "text-white" : "text-[#2F5FD0]"
+                    }`}
+                  >
+                    {finalPrice.toLocaleString("id-ID")}
+                  </span>
+                  <span
+                    className={`text-sm ${
+                      plan.isPopular ? "text-blue-100" : "text-gray-500"
+                    }`}
+                  >
+                    /bulan
+                  </span>
+                </div>
+
+                {/* DIVIDER */}
+                <div
+                  className={`h-px w-full mb-4 ${
+                    plan.isPopular ? "bg-white/20" : "bg-gray-100"
+                  }`}
+                />
+
+                {/* FEATURES */}
+                <ul className="space-y-2 mb-6 flex-1">
+                  {plan.features.slice(0, 3).map((feature) => (
+                    <li
+                      key={feature.id}
+                      className="flex items-center gap-2 text-sm"
+                    >
+                      <Check
+                        className={`w-4 h-4 shrink-0 ${
+                          plan.isPopular ? "text-white" : "text-[#2F5FD0]"
+                        }`}
+                      />
+                      <span
+                        className={
+                          plan.isPopular ? "text-blue-100" : "text-gray-600"
+                        }
+                      >
+                        {feature.name}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* BUTTON */}
+                <WALink
+                  href={`https://wa.me/6285189300718?text=Halo%20Deska,%20saya%20tertarik%20paket%20${plan.speed}%20Mbps`}
+                >
+                  <div
+                    className={`w-full py-2.5 rounded-xl font-semibold text-center text-sm cursor-pointer hover:opacity-90 transition ${
+                      plan.isPopular
+                        ? "bg-white text-[#2F5FD0]"
+                        : "bg-[#2F5FD0] text-white hover:bg-[#2F5FD0]/90"
+                    }`}
+                  >
+                    Pilih Paket
+                  </div>
+                </WALink>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ✅ LIHAT SEMUA BUTTON */}
+        {filteredPlans.length > 6 && (
+          <div className="text-center">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 text-[#2F5FD0] font-semibold text-sm hover:underline transition px-6 py-3 rounded-xl hover:bg-[#2F5FD0]/5"
+            >
+              <ChevronDown
+                className={`w-4 h-4 transition-transform ${
+                  showAll ? "rotate-180" : ""
+                }`}
+              />
+              {showAll ? "Sembunyikan Beberapa" : `Tampilkan Semua (${filteredPlans.length})`}
+            </button>
+          </div>
+        )}
+
+        {/* Bottom Info */}
+        <div className="mt-16 text-center">
+          <div className="inline-block px-6 py-3 rounded-2xl bg-blue-50">
+            <p className="text-sm font-medium text-gray-500">
               Diskon{" "}
-              <span className="font-bold" style={{ color: "#2F5FD0" }}>
-                70%
-              </span>{" "}
+              <span className="font-bold text-[#2F5FD0]">70%</span>{" "}
               biaya pasang baru — Bayar bulan pertama di bulan berikutnya
             </p>
           </div>
         </div>
+
       </Container>
     </section>
   );

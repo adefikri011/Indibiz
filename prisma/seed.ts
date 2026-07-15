@@ -2,6 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+/* ===========================
+   FAQ SEED
+=========================== */
+
 const faqSeedData = [
   {
     question: "Apakah internet INDIBIZ benar-benar unlimited tanpa FUP?",
@@ -35,74 +39,277 @@ const faqSeedData = [
   },
 ];
 
+/* ===========================
+   HELPER
+=========================== */
+
+async function createPlan(
+  productId: string,
+  speed: number,
+  price: number,
+  order: number,
+  features: string[]
+) {
+  const plan = await prisma.pricingPlan.create({
+    data: {
+      productId,
+      speed,
+      normalPrice: price,
+      price: price,
+      isPopular: false,
+      order,
+    },
+  });
+
+  for (const feature of features) {
+    await prisma.pricingFeature.create({
+      data: {
+        name: feature,
+        planId: plan.id,
+      },
+    });
+  }
+}
+
+/* ===========================
+   PRICING SEED
+=========================== */
+
 async function seedPricing() {
-  // Hapus data lama dulu (biar tidak double)
+  console.log("🗑 Menghapus semua data pricing lama...");
+
   await prisma.pricingFeature.deleteMany();
   await prisma.pricingPlan.deleteMany();
+  await prisma.pricingProduct.deleteMany();
+  await prisma.pricingCategory.deleteMany();
 
-  const features = [
-    "Kuota Unlimited Tanpa FUP",
-    "Rasio UL:DL 1:1 Simetris",
-    "100% Fiber Optik",
-    "ONT/Modem Premium",
-    "Tagihan Flat Setiap Bulan",
-    "Service 3 ON 3",
+  /* ===========================
+     HSI + NETMON
+  ============================ */
+
+  const netmonCategory = await prisma.pricingCategory.create({
+    data: {
+      name: "HSI BISNIS 2S (INTERNET + NETMON)",
+      order: 1,
+    },
+  });
+
+  const netmonProduct = await prisma.pricingProduct.create({
+    data: {
+      name: "NETMON HI",
+      categoryId: netmonCategory.id,
+      order: 1,
+    },
+  });
+
+  const netmonPrices = [
+    { speed: 50, price: 462000 },
+    { speed: 75, price: 540000 },
+    { speed: 100, price: 685000 },
+    { speed: 150, price: 830000 },
+    { speed: 200, price: 1055000 },
   ];
 
-  const plans = [
-    { speed: 50, normalPrice: 405000, price: 355000, isPopular: false },
-    { speed: 75, normalPrice: 472000, price: 415000, isPopular: false },
-    { speed: 100, normalPrice: 605000, price: 535000, isPopular: true },
-    { speed: 150, normalPrice: 795000, price: 620000, isPopular: false },
-    { speed: 200, normalPrice: 995000, price: 790000, isPopular: false },
-    { speed: 300, normalPrice: 1320000, price: 1130000, isPopular: false },
+  for (let i = 0; i < netmonPrices.length; i++) {
+    await createPlan(
+      netmonProduct.id,
+      netmonPrices[i].speed,
+      netmonPrices[i].price,
+      i,
+      ["NETMON HI"]
+    );
+  }
+
+  /* ===========================
+     HSI + PIJAR SEKOLAH
+  ============================ */
+
+  const pijarCategory = await prisma.pricingCategory.create({
+    data: {
+      name: "HSI BISNIS 2S (INTERNET + PIJAR SEKOLAH)",
+      order: 2,
+    },
+  });
+
+  const pijarProduct = await prisma.pricingProduct.create({
+    data: {
+      name: "Pijar Sekolah Flatrate",
+      categoryId: pijarCategory.id,
+      order: 1,
+    },
+  });
+
+  const pijarPrices = [
+    { speed: 50, price: 1022000 },
+    { speed: 75, price: 1102000 },
+    { speed: 100, price: 1252000 },
+    { speed: 150, price: 1402000 },
+    { speed: 200, price: 1632000 },
   ];
 
-  for (let i = 0; i < plans.length; i++) {
-    const plan = plans[i];
+  for (let i = 0; i < pijarPrices.length; i++) {
+    await createPlan(
+      pijarProduct.id,
+      pijarPrices[i].speed,
+      pijarPrices[i].price,
+      i,
+      ["Pijar Sekolah Flatrate"]
+    );
+  }
 
-    const createdPlan = await prisma.pricingPlan.create({
+  /* ===========================
+     HSI + ANTARES EAZY
+  ============================ */
+
+  const antaresCategory = await prisma.pricingCategory.create({
+    data: {
+      name: "HSI BISNIS 2S (ANTARES EAZY)",
+      order: 3,
+    },
+  });
+
+  const antaresProduct = await prisma.pricingProduct.create({
+    data: {
+      name: "IP Camera Antares Eazy Indoor - K5",
+      categoryId: antaresCategory.id,
+      order: 1,
+    },
+  });
+
+  const antaresPrices = [
+    { speed: 50, price: 474000 },
+    { speed: 75, price: 554000 },
+    { speed: 100, price: 704000 },
+    { speed: 150, price: 854000 },
+    { speed: 200, price: 1084000 },
+    { speed: 300, price: 1534000 },
+  ];
+
+  for (let i = 0; i < antaresPrices.length; i++) {
+    await createPlan(
+      antaresProduct.id,
+      antaresPrices[i].speed,
+      antaresPrices[i].price,
+      i,
+      ["IP Camera Antares Eazy Indoor - K5"]
+    );
+  }
+
+  /* ===========================
+     HSI + OCA
+  ============================ */
+
+  const ocaCategory = await prisma.pricingCategory.create({
+    data: {
+      name: "HSI BISNIS 2S (INTERNET + OCA)",
+      order: 4,
+    },
+  });
+
+  const ocaBlast = await prisma.pricingProduct.create({
+    data: {
+      name: "OCA Blast Lite",
+      categoryId: ocaCategory.id,
+      order: 1,
+    },
+  });
+
+  const ocaInteraction = await prisma.pricingProduct.create({
+    data: {
+      name: "OCA Interaction Lite",
+      categoryId: ocaCategory.id,
+      order: 2,
+    },
+  });
+
+  const ocaBlastPrices = [
+    668900, 746900, 891900, 1036900, 1261900, 1708900,
+  ];
+
+  const ocaInteractionPrices = [
+    543000, 623000, 773000, 923000, 1153000,
+  ];
+
+  const speeds = [50, 75, 100, 150, 200, 300];
+
+  for (let i = 0; i < ocaBlastPrices.length; i++) {
+    await createPlan(
+      ocaBlast.id,
+      speeds[i],
+      ocaBlastPrices[i],
+      i,
+      ["OCA Blast Lite"]
+    );
+  }
+
+  for (let i = 0; i < ocaInteractionPrices.length; i++) {
+    await createPlan(
+      ocaInteraction.id,
+      speeds[i],
+      ocaInteractionPrices[i],
+      i,
+      ["OCA Interaction Lite"]
+    );
+  }
+
+  /* ===========================
+     WMS STANDAR
+  ============================ */
+
+  const wmsStandar = await prisma.pricingCategory.create({
+    data: {
+      name: "WMS Standar",
+      order: 5,
+    },
+  });
+
+  const wmsStandarProducts = [
+    { name: "WMS Silver", speed: 20, price: 435000 },
+    { name: "WMS Gold", speed: 50, price: 950000 },
+    { name: "WMS Platinum", speed: 100, price: 1500000 },
+    { name: "WMS Titanium", speed: 150, price: 2400000 },
+    { name: "WMS Diamond", speed: 200, price: 3050000 },
+    { name: "WMS Crown", speed: 300, price: 4500000 },
+  ];
+
+  for (let i = 0; i < wmsStandarProducts.length; i++) {
+    const product = await prisma.pricingProduct.create({
       data: {
-        speed: plan.speed,
-        normalPrice: plan.normalPrice,
-        price: plan.price,
-        isPopular: plan.isPopular,
+        name: wmsStandarProducts[i].name,
+        categoryId: wmsStandar.id,
         order: i,
       },
     });
 
-    for (const feature of features) {
-      await prisma.pricingFeature.create({
-        data: {
-          name: feature,
-          planId: createdPlan.id,
-        },
-      });
-    }
+    await createPlan(
+      product.id,
+      wmsStandarProducts[i].speed,
+      wmsStandarProducts[i].price,
+      0,
+      ["Diskon PSB 70%"]
+    );
   }
 
-  console.log("✅ Pricing seed berhasil dibuat");
+  console.log("✅ Pricing seed berhasil dibuat ulang sesuai gambar.");
 }
 
-async function seedFaqs() {
-  const existingCount = await prisma.faq.count();
+/* ===========================
+   FAQ SEED
+=========================== */
 
-  if (existingCount > 0) {
-    console.log(
-      `⚠️  Tabel Faq sudah berisi ${existingCount} data. Seed FAQ dilewati supaya tidak duplikat.`
-    );
-    console.log(
-      "   Kalau mau seed ulang dari awal, kosongkan dulu tabelnya lewat halaman admin atau Prisma Studio."
-    );
-    return;
-  }
+async function seedFaqs() {
+  await prisma.faq.deleteMany();
 
   for (const faq of faqSeedData) {
     await prisma.faq.create({ data: faq });
   }
 
-  console.log(`✅ Berhasil menambahkan ${faqSeedData.length} FAQ awal.`);
+  console.log("✅ FAQ berhasil dibuat ulang.");
 }
+
+/* ===========================
+   MAIN
+=========================== */
 
 async function main() {
   await seedPricing();

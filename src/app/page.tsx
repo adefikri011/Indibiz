@@ -6,16 +6,10 @@ import PromoAndCTA from "@/components/section/PromoAndCTA";
 import FAQ from "@/components/section/FAQ";
 import Footer from "@/components/layout/Footer";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { prisma } from "@/lib/prisma";
 
-export const dynamic = "force-dynamic"; 
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const plans = await prisma.pricingPlan.findMany({
-    include: { features: true },
-    orderBy: { order: "asc" },
-  });
-
   return (
     <>
       <Navbar />
@@ -23,18 +17,24 @@ export default async function Home() {
         <ScrollReveal delay={80}>
           <Hero />
         </ScrollReveal>
+
         <ScrollReveal delay={120}>
           <Benefits />
         </ScrollReveal>
+
+        {/* ✅ Tidak kirim props lagi */}
         <ScrollReveal delay={160}>
-          <Pricing plans={plans} /> {/* ✅ Pass sebagai props */}
+          <Pricing />
         </ScrollReveal>
+
         <ScrollReveal delay={200}>
           <PromoAndCTA />
         </ScrollReveal>
+
         <ScrollReveal delay={240}>
           <FAQ />
         </ScrollReveal>
+
         <ScrollReveal delay={280}>
           <Footer />
         </ScrollReveal>

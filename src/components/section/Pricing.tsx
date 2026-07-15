@@ -1,14 +1,30 @@
+import { prisma } from "@/lib/prisma";
 import PricingClient from "./PricingClient";
-import { Prisma } from "@prisma/client";
 
-type PlanWithFeatures = Prisma.PricingPlanGetPayload<{
-  include: { features: true };
-}>;
+export const dynamic = "force-dynamic";
 
-type Props = {
-  plans: PlanWithFeatures[];
-};
+export default async function Pricing() {
+  const plans = await prisma.pricingPlan.findMany({
+    orderBy: { 
+      product: {
+        category: {
+          order: "asc"
+        }
+      }
+    },
+    include: {
+      features: true,
+      product: {
+        include: {
+          category: true,
+        },
+      },
+    },
+  });
 
-export default function Pricing({ plans }: Props) {
+  if (!plans || plans.length === 0) {
+    return null;
+  }
+
   return <PricingClient plans={plans} />;
 }

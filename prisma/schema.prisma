@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,28 +7,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model PricingCategory {
+  id          String           @id @default(uuid())
+  name        String
+  description String?
+  order       Int              @default(0)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  products    PricingProduct[]
+}
+
+model PricingProduct {
+  id         String          @id @default(uuid())
+  name       String
+  order      Int             @default(0)
+  categoryId String
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  plans      PricingPlan[]
+  category   PricingCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
 model PricingPlan {
-  id           String   @id @default(uuid())
-  speed        Int
-  normalPrice  Int
-  price        Int
-  isPopular    Boolean  @default(false)
-  order        Int      @default(0)
-
-  features     PricingFeature[]
-
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id          String           @id @default(uuid())
+  speed       Int
+  normalPrice Int
+  price       Int
+  isPopular   Boolean          @default(false)
+  order       Int              @default(0)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  productId   String?
+  features    PricingFeature[]
+  product     PricingProduct?  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model PricingFeature {
   id        String      @id @default(uuid())
   name      String
-  plan      PricingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
   planId    String
-
-  createdAt DateTime @default(now())
+  createdAt DateTime    @default(now())
+  plan      PricingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
 }
+
 model User {
   id        String   @id @default(cuid())
   name      String?
@@ -47,7 +62,7 @@ model User {
 model Faq {
   id        String   @id @default(cuid())
   question  String
-  answer    String   @db.Text
+  answer    String
   order     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
